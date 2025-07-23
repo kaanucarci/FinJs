@@ -4,7 +4,7 @@ import "../styles/globals.css";
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body>
+      <body className="bg-blue-50">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

@@ -22,8 +22,9 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    setToken(null);
     localStorage.removeItem("token");
+    setToken(null);
+    window.location.href = "/login";
   };
 
   return (

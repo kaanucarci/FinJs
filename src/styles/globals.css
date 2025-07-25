@@ -1,2 +1,13 @@
 @import "tailwindcss";
-@import "tailwindcss/utilities";
+
+.form-input {
+    @apply lg:w-auto w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+button {
+  @apply cursor-pointer;
+}  
+
+.btn .active{
+    @apply !bg-[#004caa] !text-white 
+}

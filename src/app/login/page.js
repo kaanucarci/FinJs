@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../components/AuthProvider";
 import { useRouter } from "next/navigation";
 import { UserLogin } from "../../api/api";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,24 +41,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-100 p-3">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+        className="bg-white p-8 flex rounded-lg shadow-md w-full max-w-md flex-col items-center justify-center"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Welcome Back 👋</h2>
-
+           <Image
+           className="mb-6"
+          src="/finjs_logo.png"
+          alt="Logo"
+          width={150}
+          height={45}
+        />
         {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
         <input
-          className="w-full px-4 py-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="!w-full form-input mb-3  "
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
         <input
-          className="w-full px-4 py-2 border rounded mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="!w-full form-input mb-5 w-full"
           placeholder="Password"
           type="password"
           value={password}
@@ -66,7 +72,7 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 "
         >
           Login
         </button>

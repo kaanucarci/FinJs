@@ -11,12 +11,11 @@ export default function BudgetMonths() {
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`btn border p-2  px-3 ${
-                
+            className={`btn border p-2 px-3 ${
                 index === activeIndex
                   ? "bg-[#004caa] text-white"
                   : "hover:bg-[#f4f4f4]"} 
-                  transition duration-300 rounded-lg border-[#e5e7eb]`}
+                  transition duration-300 btn-sm text-sm rounded-lg border-[#e5e7eb]`}
           >
             {month}
           </button>

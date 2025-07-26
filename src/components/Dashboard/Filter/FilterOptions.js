@@ -39,6 +39,7 @@ export default function FilterOptions({isOpen}) {
             </label>
             <input
               type="number"
+              min={1}
               name="min"
               id="min"
               className="form-input"
@@ -52,6 +53,7 @@ export default function FilterOptions({isOpen}) {
             <input
               type="number"
               name="max"
+              min={1}
               id="max"
               className="form-input"
               placeholder="Max"
@@ -66,7 +68,7 @@ export default function FilterOptions({isOpen}) {
             </select>
           </div>
           <div className="mb-1">
-            <button className="btn lg:mt-3.5 lg:w-auto w-full bg-[#004caa] cursor-pointer flex justify-center text-white text-center px-4 p-2 rounded-lg ">
+            <button className="btn lg:mt-3.5 lg:w-auto w-full bg-[#004caa]  flex justify-center text-white text-center px-4 p-2 rounded-lg ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

@@ -19,9 +19,9 @@ export const UserLogin = async (username, password) => {
 
     const data = await res.json();
 
-    if (!res.ok) {
+    if (!res.ok) 
       throw new Error(data.message || "Login failed");
-    }
+    
 
     return data; 
   } catch (error) {

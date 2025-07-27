@@ -1,6 +1,7 @@
+"use client";
 import React from "react";
-import BudgetMonths from "./BudgetMonths";
-import BudgetInfo from "./BudgetInfo";
+import BudgetMonths from "@/components/Dashboard/Budgets/BudgetMonths";
+import BudgetInfo from "@/components/Dashboard/Budgets/BudgetInfo";
 
 const Budgets = () => {
     return (

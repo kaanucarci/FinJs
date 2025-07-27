@@ -1,6 +1,7 @@
+
 import { useState } from "react";
 
-const months = ["Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+const months = ["Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik"];
 export default function BudgetMonths() {
     const [activeIndex, setActiveIndex] = useState(0);
 

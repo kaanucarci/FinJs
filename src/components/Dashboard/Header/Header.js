@@ -82,7 +82,7 @@ export default function Header() {
                 >
                   <svg
                     className="_o2IXcpM0qnG3JPReKus E9GV5sZJIbfO_GEQ_moc"
-                    ariaHidden="true"
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

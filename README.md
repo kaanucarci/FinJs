@@ -42,6 +42,6 @@ Developed with React (Next.js) and Ionic, it communicates with a backend powered
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/FinJs.git
+git clone https://github.com/kaanucarci/FinJs.git
 cd FinJs
 npm install

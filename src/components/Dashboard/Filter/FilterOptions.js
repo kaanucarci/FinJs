@@ -8,8 +8,8 @@ export default function FilterOptions({ isOpen }) {
           : "lg:scale-y-100 lg:max-h-full  max-h-0 scale-y-0 opacity-0 lg:opacity-100"
       } origin-top`}
     >
-      <div className="max-w-4xl mx-auto p-6 flex flex-col lg:flex-row justify-center align-center gap-5 lg-hidden">
-        <div className="mb-1">
+      <div className="max-w-4xl mx-auto p-6 flex flex-col lg:flex-row justify-center items-center gap-5 lg-hidden">
+        <div className="mb-1 w-full">
           <label
             htmlFor="startDate"
             className="block text-xs font-light text-gray-700"
@@ -23,7 +23,7 @@ export default function FilterOptions({ isOpen }) {
             className="form-input"
           />
         </div>
-        <div className="mb-1">
+        <div className="mb-1 w-full">
           <label
             htmlFor="endDate"
             className="block text-xs font-light text-gray-700"
@@ -37,7 +37,7 @@ export default function FilterOptions({ isOpen }) {
             className="form-input"
           />
         </div>
-        <div className="mb-1">
+        <div className="mb-1 w-full">
           <label
             htmlFor="min"
             className="block text-xs font-light text-gray-700"
@@ -53,7 +53,7 @@ export default function FilterOptions({ isOpen }) {
             placeholder="Min"
           />
         </div>
-        <div className="mb-1">
+        <div className="mb-1 w-full">
           <label
             htmlFor="max"
             className="block text-xs font-light text-gray-700"
@@ -69,7 +69,7 @@ export default function FilterOptions({ isOpen }) {
             placeholder="Max"
           />
         </div>
-        <div className="mb-1">
+        <div className="mb-1 w-full">
           <label
             htmlFor="year"
             className="block text-xs font-light text-gray-700"
@@ -80,7 +80,7 @@ export default function FilterOptions({ isOpen }) {
             <option value="2025">2025</option>
           </select>
         </div>
-        <div className="mb-1">
+        <div className="mb-1 w-full">
           <button className="btn lg:mt-3.5 lg:w-auto w-full bg-[#004caa]  flex justify-center text-white text-center px-4 p-2 rounded-lg ">
             <svg
               xmlns="http://www.w3.org/2000/svg"

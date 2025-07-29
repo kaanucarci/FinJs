@@ -77,7 +77,7 @@ export default function Header() {
             <ul className="p-1">
               <li>
                 <button
-                  className="w-full text-left  px-4 py-2 text-sm text-[#E02424] hover:bg-gray-100 flex gap-1 justify-start align-center"
+                  className="w-full text-left  px-4 py-2 text-sm text-[#E02424] hover:bg-gray-100 flex gap-1 justify-start items-center"
                   onClick={() => logout()}
                 >
                   <svg

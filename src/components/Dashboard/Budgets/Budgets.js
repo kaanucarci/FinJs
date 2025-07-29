@@ -7,9 +7,9 @@ import BudgetItems from "./BudgetItems";
 const Budgets = () => {
     return (
        <>
-       <BudgetMonths/>
-       <BudgetInfo/>
-       <BudgetItems/>
+       <BudgetMonths />
+       <BudgetInfo />
+       <BudgetItems />
        </>
     )
 }

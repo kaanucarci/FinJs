@@ -7,7 +7,7 @@ export default function BudgetInfo (){
     const [isOpenEditBudget, setIsOpenEditBudget] = useState(false);
     return (
         <>
-        <div className="max-w-7xl mx-auto p-6 flex flex-row justify-center items-center gap-5">
+        <div className="max-w-7xl mx-auto lg:p-6 p-2 flex flex-row justify-center items-center gap-5">
             <div className="w-full shadow-sm bg-white rounded "> 
                 <div className="grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 grid gap-4 p-5">
                     <div className="flex gap-2 justify-start">

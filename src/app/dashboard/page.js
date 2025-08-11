@@ -5,7 +5,6 @@ import MainLayout from "@/layouts/MainLayout";
 
 
 export default function DashboardPage() {
-    const {token} = useAuth();
   return (
     <ProtectedRoute>
         <MainLayout>

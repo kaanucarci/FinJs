@@ -28,3 +28,20 @@ export const UserLogin = async (username, password) => {
     throw new Error(error.message || "Login failed. Server error.");
   }
 };
+
+export const UseGetBudgets = async (token) => {
+  try {
+    const res = await fetch(`${api}/Budget`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    
+    return res.json();
+   }
+  catch (error) {
+    throw new Error(error.message || "There is an error");
+  }
+};

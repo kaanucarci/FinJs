@@ -12,7 +12,7 @@ export default function SearchModal({ isOpen, setIsOpen }) {
           <h2 className="text-lg font-semibold mb-4">Arama</h2>
           <input
             type="text"
-            placeHolder="Bir seyler ara"
+            placeholder="Bir seyler ara"
             className="w-full border border-gray-300 rounded-md p-2"
           />
         </div>

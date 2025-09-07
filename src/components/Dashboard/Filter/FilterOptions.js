@@ -42,32 +42,13 @@ export default function FilterOptions({ isOpen }) {
             htmlFor="min"
             className="block text-xs font-light text-gray-700"
           >
-            Minimum Tutar
+            Harcama Tipi
           </label>
-          <input
-            type="number"
-            min={1}
-            name="min"
-            id="min"
-            className="form-input"
-            placeholder="Min"
-          />
-        </div>
-        <div className="mb-1 w-full">
-          <label
-            htmlFor="max"
-            className="block text-xs font-light text-gray-700"
-          >
-            Maksimum Tutar
-          </label>
-          <input
-            type="number"
-            name="max"
-            min={1}
-            id="max"
-            className="form-input"
-            placeholder="Max"
-          />
+            <select className="form-input" name="expense_type">
+                <option value="">Harcamalar ve Birikimler</option>
+                <option value={1}>Sadece Harcamalar</option>
+                <option value={2}>Sadece Birikimler</option>
+            </select>
         </div>
         <div className="mb-1 w-full">
           <label

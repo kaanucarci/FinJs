@@ -1,17 +1,23 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import NewBudgetItem from "./NewBudgetItem";
 import EditBudget from "./EditBudget";
 
-export default function BudgetInfo (){
+export default function BudgetInfo ({ budgetInfo, token }){
     const [isOpen, setIsOpen] = useState(false);
+    const [info, setInfo] = useState(budgetInfo);
     const [isOpenEditBudget, setIsOpenEditBudget] = useState(false);
+
+    useEffect(() => {
+        setInfo(budgetInfo);
+    }, [budgetInfo]);
+
     return (
         <>
         <div className="max-w-7xl mx-auto lg:p-6 p-2 flex flex-row justify-center items-center gap-5">
             <div className="w-full shadow-sm bg-white rounded "> 
                 <div className="grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 grid gap-4 p-5">
                     <div className="flex gap-2 justify-start">
-                        <div className="p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center p-3">
+                        <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
                             <svg className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z" clipRule="evenodd"></path>
                                 <path fillRule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clipRule="evenodd"></path>
@@ -20,33 +26,33 @@ export default function BudgetInfo (){
                         </div>    
                         <div className="flex flex-col gap-1">
                             <span className="font-light text-gray-600">Toplam Butce</span>
-                            <span className="font-semibold text-gray-900">TL 100.000</span>
+                            <span className="font-semibold text-gray-900">TL {info?.totalAmount}</span>
                         </div>
                     </div>
                     <div className="flex gap-2 justify-start">
-                        <div className="p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center p-3">
+                        <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
                             <svg className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clipRule="evenodd"></path>
                             </svg>
                         </div>    
                         <div className="flex flex-col gap-1">
                             <span className="font-light text-gray-600">Kalan Butce</span>
-                            <span className="font-semibold text-gray-900">TL 100.000</span>
+                            <span className="font-semibold text-gray-900">TL {info?.amount}</span>
                         </div>
                     </div>
                     <div className="flex gap-2 justify-start">
-                        <div className="p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center p-3">
+                        <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
                             <svg className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z" clipRule="evenodd"></path>
                             </svg>
                         </div>    
                         <div className="flex flex-col gap-1">
                             <span className="font-light text-gray-600">Toplam Harcama</span>
-                            <span className="font-semibold text-gray-900">TL 100.000</span>
+                            <span className="font-semibold text-gray-900">TL {info?.expense}</span>
                         </div>
                     </div>
                     <div className="flex gap-2 justify-start">
-                        <div className="p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center p-3">
+                        <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
                             <svg className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clipRule="evenodd"></path>
                                 <path fillRule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clipRule="evenodd"></path>
@@ -54,7 +60,7 @@ export default function BudgetInfo (){
                         </div>    
                         <div className="flex flex-col gap-1">
                             <span className="font-light text-gray-600">Toplam Birikim</span>
-                            <span className="font-semibold text-gray-900">TL 100.000</span>
+                            <span className="font-semibold text-gray-900">TL {info?.saving}</span>
                         </div>
                     </div>
                     <div className="flex gap-3 justify-start items-center">    
@@ -77,7 +83,7 @@ export default function BudgetInfo (){
             </div>          
         </div>
         <NewBudgetItem isOpen={isOpen} setIsOpen={setIsOpen} />
-        <EditBudget isOpen={isOpenEditBudget} setIsOpen={setIsOpenEditBudget} />
+        <EditBudget isOpen={isOpenEditBudget} setIsOpen={setIsOpenEditBudget} budgetInfo={info} token={token}  onSuccess={(updated) => setInfo(updated)}/>
         </>
     )
 }

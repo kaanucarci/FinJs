@@ -7,49 +7,49 @@ export const api = process.env.NEXT_PUBLIC_BASE_API;
 export const server = axios.create();
 server.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_API;
 
+export const request = async (url, options = {}) => {
+    try {
+        const res = await fetch(`${api}${url}`, options);
+
+        if (res.status === 401) {
+            if (typeof window !== "undefined") {
+                window.location.href = "/login";
+            }
+            return;
+        }
+
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 export const UserLogin = async (username, password) => {
-  try {
-    const res = await fetch(`${api}/Auth/login`, {
-      method: "POST",
-      headers: {
-        "accept": "text/plain",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+        const res = await request(`/Auth/login`, {
+            method: "POST",
+            headers: {
+                "accept": "text/plain",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        });
 
-    const data = await res.json();
+        if (!res || !res.ok) {
+            toast.error("Login failed.");
+            return;
+        }
 
-    if (!res.ok)
-        toast.error(error.message || "Login failed.");
-    
-
-    return data; 
-  } catch (error) {
-      toast.error(error.message || "Login failed. Server error");
-  }
+        return await res.json();
+    } catch (error) {
+        toast.error(error.message || "Login failed. Server error");
+    }
 };
 
 export const UseGetBudgets = async (token) => {
-  try {
-    const res = await fetch(`${api}/Budget`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    
-    return res.json();
-   }
-  catch (error) {
-      toast.error(error.message || "There is an error");
-  }
-};
-
-export const UseGetBudgetInfo = async (token, id) => {
     try {
-        const res = await fetch(`${api}/Budget/${id}`, {
+        const res = await request(`/Budget`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -57,17 +57,33 @@ export const UseGetBudgetInfo = async (token, id) => {
             },
         });
 
-        return res.json();
-    }
-    catch (error) {
+        if (!res) return;
+        return await res.json();
+    } catch (error) {
         toast.error(error.message || "There is an error");
     }
 };
 
+export const UseGetBudgetInfo = async (token, id) => {
+    try {
+        const res = await request(`/Budget/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (!res) return;
+        return await res.json();
+    } catch (error) {
+        toast.error(error.message || "There is an error");
+    }
+};
 
 export const UseEditBudget = async (token, data, id) => {
     try {
-        const res = await fetch(`${api}/Budget/${id}`, {
+        const res = await request(`/Budget/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -75,15 +91,38 @@ export const UseEditBudget = async (token, data, id) => {
             },
             body: JSON.stringify(data),
         });
-        if (!res.ok){
-            toast.error(error.message || "There is an error");
+
+        if (!res || !res.ok) {
+            toast.error("There is an error");
             return;
         }
 
-        toast.success("Butce basariyla guncellendi");
+        toast.success("Bütçe başarıyla güncellendi");
         return await res.json();
+    } catch (error) {
+        toast.error(error.message || "There is an error");
     }
-    catch (error) {
+};
+
+export const UseGetBudgetItems = async (token, data, id) => {
+    try {
+        const res = await request(`/Budget/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!res || !res.ok) {
+            toast.error("There is an error");
+            return;
+        }
+
+        toast.success("Bütçe başarıyla güncellendi");
+        return await res.json();
+    } catch (error) {
         toast.error(error.message || "There is an error");
     }
 };

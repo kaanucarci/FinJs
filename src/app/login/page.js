@@ -14,11 +14,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (token) {
-      router.replace("/");
-    }
-  }, [token]);
+  //useEffect(() => {
+  //  if (token) {
+  //    router.replace("/");
+  //  }
+  //}, [token]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

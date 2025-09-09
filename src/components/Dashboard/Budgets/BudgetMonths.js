@@ -32,6 +32,7 @@ export default function BudgetMonths({ budgetMonths = [], onMonthSelect, activeI
                 {Object.values(budgetMonths).map((month, index) => (
                     <button
                         key={month?.month - 1}
+                        disabled={index === activeIndex}
                         ref={(el) => (buttonsRef.current[index] = el)}
                         onClick={() => handleMonthClick(index, month)}
                         className={`border p-2 px-3 rounded-lg text-sm transition duration-300

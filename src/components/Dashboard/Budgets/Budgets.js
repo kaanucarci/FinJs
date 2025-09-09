@@ -43,16 +43,18 @@ const Budgets = () => {
         setSelectedBudget(data);
     };
 
-    const handleMonthSelect = (monthObj, index) => {
+    const handleMonthSelect = (monthObj, index) => {w
         fetchBudgetInfo(monthObj.id || monthObj.budgetId);
         setActiveIndex(index);
     };
+
+    const budgetItems = [];
 
     return (
         <>
             <BudgetMonths budgetMonths = {budgetMonths} onMonthSelect={handleMonthSelect} activeIndex={activeIndex}/>
             <BudgetInfo  budgetInfo={selectedBudget} token={token} />
-            <BudgetItems />
+            <BudgetItems budgetItems={budgetItems} />
         </>
     )
 }

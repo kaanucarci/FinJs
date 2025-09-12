@@ -4,13 +4,14 @@ import BudgetMonths from "@/components/Dashboard/Budgets/BudgetMonths";
 import BudgetInfo from "@/components/Dashboard/Budgets/BudgetInfo";
 import BudgetItems from "./BudgetItems";
 import { useAuth } from "@/components/AuthProvider";
-import {UseGetBudgetInfo, UseGetBudgets} from "@/api/api";
+import {UseGetBudgetInfo, UseGetBudgetItems, UseGetBudgets} from "@/api/api";
 
 
 const Budgets = () => {
 
     const [budgetMonths, setBudgetMonths] = useState([]);
     const [selectedBudget, setSelectedBudget] = useState([]);
+    const [budgetItems, setBudgetItems] = useState([]);
     const [activeIndex, setActiveIndex] = useState(() => new Date().getMonth());
     const { token } = useAuth();
     const hasFetched = useRef(false);
@@ -29,6 +30,7 @@ const Budgets = () => {
 
             if (defaultBudget) {
                 fetchBudgetInfo(defaultBudget.id);
+                fetchBudgetItems(defaultBudget.id, { month: currentMonth, year: new Date().getFullYear() })
                 const defaultIndex = data.findIndex(m => m.month === currentMonth);
                 setActiveIndex(defaultIndex);
             }
@@ -43,12 +45,18 @@ const Budgets = () => {
         setSelectedBudget(data);
     };
 
-    const handleMonthSelect = (monthObj, index) => {w
+    const fetchBudgetItems = async (budgetId, filterParams) => {
+        if (!token) return;
+        const data = await UseGetBudgetItems(token, filterParams, budgetId);
+        setBudgetItems(data);
+    };
+
+    const handleMonthSelect = (monthObj, index) => {
         fetchBudgetInfo(monthObj.id || monthObj.budgetId);
+        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: new Date().getFullYear() })
         setActiveIndex(index);
     };
 
-    const budgetItems = [];
 
     return (
         <>

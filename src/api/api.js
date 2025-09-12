@@ -104,15 +104,15 @@ export const UseEditBudget = async (token, data, id) => {
     }
 };
 
-export const UseGetBudgetItems = async (token, data, id) => {
+export const UseGetBudgetItems = async (token, filterParams, id) => {
     try {
-        const res = await request(`/Budget/${id}`, {
-            method: "PUT",
+        let params = new URLSearchParams(filterParams).toString();
+        const res = await request(`/Budget/list/${id}?${params}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify(data),
         });
 
         if (!res || !res.ok) {
@@ -120,9 +120,9 @@ export const UseGetBudgetItems = async (token, data, id) => {
             return;
         }
 
-        toast.success("Bütçe başarıyla güncellendi");
         return await res.json();
     } catch (error) {
+        console.log(error);
         toast.error(error.message || "There is an error");
     }
 };

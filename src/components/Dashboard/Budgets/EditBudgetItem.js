@@ -1,4 +1,4 @@
-export default function EditBudgetModal({ isOpen, setIsOpen }) {
+export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, onSuccess }) {
     return (
       isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#8a8a8a78] bg-opacity-40 p-3">
@@ -20,13 +20,13 @@ export default function EditBudgetModal({ isOpen, setIsOpen }) {
                 </label>
                 <div className="flex justify-start items-center gap-2">
                     <div className="flex gap-2">
-                        <input type="radio" name="expense_type" id="expense" value="1"/>
+                        <input type="radio" name="expense_type"  id="expense" value="1"  defaultChecked={budgetItem?.expenseType === 1}/>
                         <label htmlFor="expense" className="block text-sm font-medium text-gray-700">
                             Harcama
                         </label>
                     </div>
                     <div className="flex gap-2">
-                        <input type="radio" name="expense_type" id="saving" value="2"/>
+                        <input type="radio" name="expense_type" id="saving" value="2" defaultChecked={budgetItem?.expenseType === 2}/>
                         <label htmlFor="saving" className="block text-sm font-medium text-gray-700">
                             Birikim
                         </label>
@@ -43,6 +43,7 @@ export default function EditBudgetModal({ isOpen, setIsOpen }) {
                   type="number"
                   id="amount"
                   required
+                  defaultValue={budgetItem?.amount}
                   name="amount"
                   className="!w-full form-input"
                   placeholder="Tutar giriniz (3000 seklinde)"
@@ -57,6 +58,7 @@ export default function EditBudgetModal({ isOpen, setIsOpen }) {
                 <input
                   type="text"
                   id="description"
+                  defaultValue={budgetItem?.description}
                   required
                   name="description"
                   className="!w-full form-input"

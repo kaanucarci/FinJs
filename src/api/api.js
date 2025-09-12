@@ -126,3 +126,27 @@ export const UseGetBudgetItems = async (token, filterParams, id) => {
         toast.error(error.message || "There is an error");
     }
 };
+
+export const UseAddBudgetItem = async (token, data, endPoint) => {
+    try {
+        const res = await request(`/${endPoint}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!res || !res.ok) {
+            toast.error("There is an error");
+            return;
+        }else {
+            toast.success("Kayit basariyla eklendi!");
+        }
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        toast.error(error.message || "There is an error");
+    }
+};

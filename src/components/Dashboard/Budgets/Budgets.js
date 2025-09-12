@@ -30,7 +30,7 @@ const Budgets = () => {
 
             if (defaultBudget) {
                 fetchBudgetInfo(defaultBudget.id);
-                fetchBudgetItems(defaultBudget.id, { month: currentMonth, year: new Date().getFullYear() })
+                fetchBudgetItems(defaultBudget.id, { BudgetYear: new Date().getFullYear() })
                 const defaultIndex = data.findIndex(m => m.month === currentMonth);
                 setActiveIndex(defaultIndex);
             }

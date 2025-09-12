@@ -1,4 +1,23 @@
-export default function NewBudgetItem({ isOpen, setIsOpen }) {
+import {UseAddBudgetItem} from "@/api/api";
+import {useState} from "react";
+
+export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) {
+    const [expenseType, setExpenseType] = useState("Expense");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const expenseType = formData.get("expense_type");
+        const data = {
+            budgetId : budgetItem.budgetId,
+            amount : formData.get("amount"),
+            description : formData.get("description"),
+        }
+
+        await UseAddBudgetItem(token, data, expenseType);
+        setIsOpen(false);
+    }
+
     return (
       isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#8a8a8a78] bg-opacity-40 p-3">
@@ -10,7 +29,7 @@ export default function NewBudgetItem({ isOpen, setIsOpen }) {
               x
             </button>
             <h2 className="text-lg font-semibold mb-4">Yeni Giris</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
                   htmlFor="amount"
@@ -20,13 +39,13 @@ export default function NewBudgetItem({ isOpen, setIsOpen }) {
                 </label>
                 <div className="flex justify-start items-center gap-2">
                     <div className="flex gap-2">
-                        <input type="radio" name="expense_type" id="expense" value="1"/>
+                        <input type="radio" checked={expenseType === "Expense"} onChange={(e) => setExpenseType(e.target.value)} name="expense_type" id="expense" value="Expense"/>
                         <label htmlFor="expense" className="block text-sm font-medium text-gray-700">
                             Harcama
                         </label>
                     </div>
                     <div className="flex gap-2">
-                        <input type="radio" name="expense_type" id="saving" value="2"/>
+                        <input type="radio" checked={expenseType === "Saving"} onChange={(e) => setExpenseType(e.target.value)} name="expense_type" id="saving" value="Saving"/>
                         <label htmlFor="saving" className="block text-sm font-medium text-gray-700">
                             Birikim
                         </label>
@@ -60,7 +79,7 @@ export default function NewBudgetItem({ isOpen, setIsOpen }) {
                   required
                   name="description"
                   className="!w-full form-input"
-                  placeholder="Orn: Oglen Yemegi"
+                  placeholder="Orn: 1000 TL degerinde oglen yemegi"
                 />
               </div>
 

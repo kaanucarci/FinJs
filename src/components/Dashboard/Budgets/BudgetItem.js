@@ -1,11 +1,17 @@
 import Image from "next/image";
 import EditBudgetItem from "./EditBudgetItem";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import EmptyState from "@/components/Dashboard/Budgets/EmptyState";
 
 export default function BudgetItem({budgetItem, token}) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [data, setItem] = useState(budgetItem);
+
+    useEffect(() => {
+        setItem(budgetItem);
+    }, [budgetItem]);
+
 
     const handleEditClick = (item) => {
         setSelectedItem(item);
@@ -13,7 +19,7 @@ export default function BudgetItem({budgetItem, token}) {
     }
 
     return (<>
-            {budgetItem?.length < 1 ? (<EmptyState/>) : (budgetItem?.map((item) => {
+            {data?.length < 1 ? (<EmptyState/>) : (data?.map((item) => {
                 const date = new Date(item?.createdDate);
                 const day = date.getDate();
                 const month = date.toLocaleString("en-US", {month: "short"}).toUpperCase();
@@ -59,6 +65,12 @@ export default function BudgetItem({budgetItem, token}) {
                         </div>
                     </div>);
             }))}
-            <EditBudgetItem isOpen={isOpen} setIsOpen={setIsOpen} token={token} budgetItem={selectedItem} />
+            <EditBudgetItem isOpen={isOpen} setIsOpen={setIsOpen} budgetItem={selectedItem} token={token} onSuccess={(updated) => {
+                setItem((prev) =>
+                    prev.map((item) =>
+                        item.id === updated.id ? updated : item
+                    )
+                );
+            }}/>
         </>);
 }

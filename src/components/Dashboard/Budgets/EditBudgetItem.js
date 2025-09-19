@@ -1,4 +1,28 @@
+import {useRef} from "react";
+import {UseEditBudgetItem} from "@/api/api";
+
 export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, onSuccess }) {
+
+    const amount = useRef();
+    const description = useRef();
+    const endPoint = budgetItem?.expenseType == 1 ? "Expense" : "Saving";
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = {
+            amount: amount.current.value,
+            description: description.current.value,
+            budgetId : budgetItem.budgetId,
+        };
+
+        const updated = await UseEditBudgetItem(token, data, endPoint, budgetItem?.id);
+        if (onSuccess)
+            onSuccess(updated);
+
+        setIsOpen(false);
+    };
+
+
     return (
       isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#8a8a8a78] bg-opacity-40 p-3">
@@ -10,29 +34,7 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
               x
             </button>
             <h2 className="text-lg font-semibold mb-4">Harcama Duzenle</h2>
-            <form>
-              <div className="mb-4">
-                <label
-                  htmlFor="amount"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Harcama Tipini Seciniz
-                </label>
-                <div className="flex justify-start items-center gap-2">
-                    <div className="flex gap-2">
-                        <input type="radio" name="expense_type"  id="expense" value="1"  defaultChecked={budgetItem?.expenseType === 1}/>
-                        <label htmlFor="expense" className="block text-sm font-medium text-gray-700">
-                            Harcama
-                        </label>
-                    </div>
-                    <div className="flex gap-2">
-                        <input type="radio" name="expense_type" id="saving" value="2" defaultChecked={budgetItem?.expenseType === 2}/>
-                        <label htmlFor="saving" className="block text-sm font-medium text-gray-700">
-                            Birikim
-                        </label>
-                    </div>
-                </div>
-              </div>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label  
                   htmlFor="amount"
@@ -43,6 +45,7 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
                   type="number"
                   id="amount"
                   required
+                  ref={amount}
                   defaultValue={budgetItem?.amount}
                   name="amount"
                   className="!w-full form-input"
@@ -59,6 +62,7 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
                   type="text"
                   id="description"
                   defaultValue={budgetItem?.description}
+                  ref={description}
                   required
                   name="description"
                   className="!w-full form-input"
@@ -66,13 +70,18 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
                 />
               </div>
 
-              
-              <div className="mb-4">
-                <button  className="bg-[#004caa] hover:bg-[#01387c] transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
-                    Kaydet
-                </button>
+              <div className="flex gap-2 ">
+                  <div className="mb-4 w-full">
+                      <button  className="bg-[#004caa]  hover:bg-[#01387c] transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
+                          Kaydet
+                      </button>
+                  </div>
+                  <div className="mb-4 w-full">
+                      <button  className="bg-red-600  hover:bg-red-800 transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
+                          Sil
+                      </button>
+                  </div>
               </div>
-              
             </form>
           </div>
         </div>

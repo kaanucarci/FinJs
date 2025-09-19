@@ -62,7 +62,7 @@ const Budgets = () => {
         <>
             <BudgetMonths budgetMonths = {budgetMonths} onMonthSelect={handleMonthSelect} activeIndex={activeIndex}/>
             <BudgetInfo  budgetInfo={selectedBudget} token={token} />
-            <BudgetItems budgetItems={budgetItems} />
+            <BudgetItems budgetItems={budgetItems} token={token}/>
         </>
     )
 }

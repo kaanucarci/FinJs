@@ -20,7 +20,7 @@ export const request = async (url, options = {}) => {
 
         return res;
     } catch (error) {
-        throw error;
+        return error;
     }
 };
 
@@ -100,6 +100,7 @@ export const UseEditBudget = async (token, data, id) => {
         toast.success("Bütçe başarıyla güncellendi");
         return await res.json();
     } catch (error) {
+        console.log(error);
         toast.error(error.message || "There is an error");
     }
 };
@@ -143,6 +144,30 @@ export const UseAddBudgetItem = async (token, data, endPoint) => {
             return;
         }else {
             toast.success("Kayit basariyla eklendi!");
+        }
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        toast.error(error.message || "There is an error");
+    }
+};
+
+export const UseEditBudgetItem = async (token, data, endPoint, id) => {
+    try {
+        const res = await request(`/${endPoint}/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!res || !res.ok) {
+            toast.error("There is an error");
+            return;
+        }else {
+            toast.success("Kayit basariyla duzenlendi!");
         }
         return await res.json();
     } catch (error) {

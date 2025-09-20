@@ -1,5 +1,6 @@
 import {useRef} from "react";
-import {UseEditBudgetItem} from "@/api/api";
+import {UseEditBudgetItem, UseDeleteBudgetItem} from "@/api/api";
+import Swal from "sweetalert2";
 
 export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, onSuccess }) {
 
@@ -16,11 +17,29 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         };
 
         const updated = await UseEditBudgetItem(token, data, endPoint, budgetItem?.id);
-        if (onSuccess)
-            onSuccess(updated);
-
+        if (onSuccess) onSuccess(updated);
         setIsOpen(false);
     };
+
+    const deleteItem = async () => {
+        const result = await Swal.fire({
+            title: "Emin misiniz?",
+            text: "Bu öğeyi sileceksiniz, geri alamazsınız!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Evet, sil!",
+            cancelButtonText: "Vazgeç"
+        });
+
+        if (!result.isConfirmed) return;
+
+        UseDeleteBudgetItem(token, endPoint, budgetItem.id);
+
+        if (onSuccess) onSuccess(null);
+        setIsOpen(false);
+    }
 
 
     return (
@@ -72,12 +91,12 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
 
               <div className="flex gap-2 ">
                   <div className="mb-4 w-full">
-                      <button  className="bg-[#004caa]  hover:bg-[#01387c] transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
+                      <button type="submit" className="bg-[#004caa]  hover:bg-[#01387c] transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
                           Kaydet
                       </button>
                   </div>
                   <div className="mb-4 w-full">
-                      <button  className="bg-red-600  hover:bg-red-800 transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
+                      <button onClick={deleteItem} type="button" className="bg-red-600  hover:bg-red-800 transaction duration-300 text-white py-2 px-3 w-full rounded-lg">
                           Sil
                       </button>
                   </div>

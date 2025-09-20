@@ -175,3 +175,24 @@ export const UseEditBudgetItem = async (token, data, endPoint, id) => {
         toast.error(error.message || "There is an error");
     }
 };
+
+export const UseDeleteBudgetItem = async (token,endPoint, id) => {
+    try {
+        const res = await request(`/${endPoint}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (!res || !res.ok) {
+            toast.error("There is an error");
+        }else {
+            toast.success("Kayit basariyla silindi!");
+        }
+    } catch (error) {
+        console.log(error);
+        toast.error(error.message || "There is an error");
+    }
+};

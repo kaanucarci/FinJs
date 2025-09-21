@@ -29,48 +29,58 @@ export default function BudgetItem({budgetItem, token}) {
 
                 return (<div
                         key={item?.expenseType + '-' + item?.id}
-                        className="border-b w-full border-[#e5e7eb] py-4 px-2 lg:px-6 last:border-b-0">
+                        className="border-b w-full border-slate-200/50 py-6 px-2 lg:px-6 last:border-b-0 hover:bg-slate-50/50 transition-all duration-300 rounded-lg group">
                         <div
                             className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-14 gap-4 w-full">
-                            <div className="flex flex-row lg:flex-col items-center justify-start gap-1 lg:w-20">
-                                <span className="text-[12px] lg:text-3xl text-black">{day}</span>
-                                <span className="text-[12px] lg:text-xs text-gray-700 whitespace-nowrap">
-                                    {month} {year}
-                                </span>
-                                <span className="text-[12px] lg:text-xs text-gray-700">
-                                    {hour}:{minute}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col justify-center gap-2 w-full">
-                                <div className="flex items-center justify-between w-full">
-                                    <span className="text-sm lg:text-base text-black font-semibold">
-                                        {item?.expenseType === 1 ? "Harcama" : "Birikim"} İslemi
+                            <div className="flex flex-row lg:flex-col items-center justify-start gap-2 lg:w-24">
+                                <div className="flex flex-col items-center lg:items-start">
+                                    <span className="text-lg lg:text-3xl text-slate-900 font-bold">{day}</span>
+                                    <span className="text-xs lg:text-sm text-slate-600 whitespace-nowrap font-medium">
+                                        {month} {year}
                                     </span>
-                                    <span  className={`text-sm font-semibold lg:text-base ${item?.expenseType == 1 ? "text-red-800" : "text-gray-600"}`}>
-                                        {item?.expenseType === 1 ? "-" : ""} {item?.amount} TL
+                                    <span className="text-xs lg:text-sm text-slate-500">
+                                        {hour}:{minute}
                                     </span>
                                 </div>
-                                <span className="text-[12px] lg:text-sm text-gray-600 text-start w-full">
+                            </div>
+
+                            <div className="flex flex-col justify-center gap-3 w-full">
+                                <div className="flex items-center justify-between w-full">
+                                    <div className="flex items-center gap-2">
+                                        <div className={`w-2 h-2 rounded-full ${item?.expenseType === 1 ? 'bg-red-500' : 'bg-green-500'}`}></div>
+                                        <span className="text-sm lg:text-base text-slate-900 font-semibold">
+                                            {item?.expenseType === 1 ? "Harcama" : "Birikim"} Islemi
+                                        </span>
+                                    </div>
+                                    <span className={`text-sm font-bold lg:text-lg px-3 py-1 rounded-lg ${item?.expenseType == 1 ? "text-red-700 bg-red-50" : "text-green-700 bg-green-50"}`}>
+                                        {item?.expenseType === 1 ? "-" : "+"} ₺{item?.amount}
+                                    </span>
+                                </div>
+                                <span className="text-sm lg:text-base text-slate-600 text-start w-full leading-relaxed">
                                     {item?.description}
                                 </span>
                             </div>
                         </div>
-                        <div className="w-full lg:w-auto flex items-end justify-end">
+                        <div className="w-full lg:w-auto flex items-end justify-end mt-2">
                             <button
-                                className="flex items-center justify-center rounded border hover:bg-gray-200 transition duration-200 border-[#e5e7eb] p-2"
+                                className="flex items-center justify-center rounded-xl border hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 border-slate-200 p-3 shadow-sm hover:shadow-md group"
                                 onClick={() => handleEditClick(item)}>
-                                <Image src={"/invoice.svg"} width={15} height={15} alt="invoice"/>
+                                <Image src={"/invoice.svg"} width={18} height={18} alt="invoice" className="group-hover:scale-110 transition-transform duration-300"/>
                             </button>
                         </div>
                     </div>);
             }))}
             <EditBudgetItem isOpen={isOpen} setIsOpen={setIsOpen} budgetItem={selectedItem} token={token} onSuccess={(updated) => {
-                setItem((prev) =>
-                    prev.map((item) =>
-                        item.id === updated.id ? updated : item
-                    )
-                );
-            }}/>
+                if (updated === null) {
+                    setItem((prev) => prev.filter((item) => item.id !== selectedItem?.id));
+                } else {
+                    setItem((prev) =>
+                        prev.map((item) =>
+                            item.id === updated?.id ? updated : item
+                        )
+                    );
+                }
+            }}
+            />
         </>);
 }

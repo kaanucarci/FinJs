@@ -23,21 +23,22 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="flex items-center justify-between bg-white p-4 px-5 border-b border-[#e5e7eb]">
+    <header className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 px-5 border-b border-slate-200/50 shadow-modern sticky top-0 z-40">
       <div className="flex gap-5">
-        <Image src="/finjs_logo.png" alt="Logo" width={150} height={45} />
+        <Image src="/finjs_logo.png" alt="Logo" width={150} height={45} className="drop-shadow-sm" />
         <button
           type="button"
-          className="btn border p-2  hover:bg-[#f4f4f4] transition duration-300 rounded-lg border-[#e5e7eb]"
+          className="btn border p-2 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 rounded-xl border-slate-200 shadow-sm hover:shadow-md group"
           onClick={() => setIsOpen(true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="#c7c7c7"
+            stroke="#64748b"
             width="25"
             height="25"
+            className="group-hover:stroke-blue-600 transition-colors duration-300"
           >
             <path
               strokeLinecap="round"
@@ -52,16 +53,17 @@ export default function Header() {
       <div className="gap-5 relative inline-block text-left" ref={dropdownRef}>
         <button
           type="button"
-          className="btn border p-2  hover:bg-[#f4f4f4] transition duration-300 rounded-lg border-[#e5e7eb]"
+          className="btn border p-2 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 rounded-xl border-slate-200 shadow-sm hover:shadow-md group"
           onClick={() => setOpen(!open)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="#c7c7c7"
+            stroke="#64748b"
             width="25"
             height="25"
+            className="group-hover:stroke-blue-600 transition-colors duration-300"
           >
             <path
               strokeLinecap="round"
@@ -73,15 +75,15 @@ export default function Header() {
         </button>
 
         {open && (
-          <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+          <div className="absolute right-0 mt-2 w-40 bg-white/95 backdrop-blur-md border border-slate-200/50 rounded-xl shadow-modern-lg z-50 animate-in slide-in-from-top-2 duration-200">
             <ul className="p-1">
               <li>
                 <button
-                  className="w-full text-left  px-4 py-2 text-sm text-[#E02424] hover:bg-gray-100 flex gap-1 justify-start items-center"
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 flex gap-1 justify-start items-center rounded-lg transition-all duration-200 font-medium"
                   onClick={() => logout()}
                 >
                   <svg
-                    className="_o2IXcpM0qnG3JPReKus E9GV5sZJIbfO_GEQ_moc"
+                    className="transition-transform duration-200 group-hover:scale-110"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -90,7 +92,7 @@ export default function Header() {
                     height="20"
                   >
                     <path
-                      stroke="#E02424"
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeWidth={2}
                       d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"

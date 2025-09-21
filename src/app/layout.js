@@ -5,7 +5,7 @@ import "@/styles/globals.css";
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body className="bg-[#F9FAFB]">
+      <body className="min-h-screen bg-[#F9FAFB]">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

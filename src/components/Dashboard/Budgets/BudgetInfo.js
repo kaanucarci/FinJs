@@ -14,12 +14,12 @@ export default function BudgetInfo({budgetInfo, token}) {
     return (
         <>
             <div className="max-w-7xl mx-auto lg:p-6 p-2 flex flex-row justify-center items-center gap-5">
-                <div className="w-full shadow-sm bg-white rounded ">
-                    <div className="grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 grid gap-4 p-5">
-                        <div className="flex gap-2 justify-start">
-                            <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
+                <div className="w-full shadow-modern-lg bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/50">
+                    <div className="grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 grid gap-6 p-6">
+                        <div className="flex gap-3 justify-start group">
+                            <div className="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
                                 <svg
-                                    className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y"
+                                    className="text-blue-600"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path fillRule="evenodd"
@@ -32,14 +32,14 @@ export default function BudgetInfo({budgetInfo, token}) {
                                 </svg>
                             </div>
                             <div className="flex flex-col gap-1">
-                                <span className="font-light text-gray-600">Toplam Butce</span>
-                                <span className="font-semibold text-gray-900">TL {info?.totalAmount}</span>
+                                <span className="font-medium text-slate-600 text-sm">Toplam Butce</span>
+                                <span className="font-bold text-slate-900 text-lg">₺ {info?.totalAmount}</span>
                             </div>
                         </div>
-                        <div className="flex gap-2 justify-start">
-                            <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
+                        <div className="flex gap-3 justify-start group">
+                            <div className="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
                                 <svg
-                                    className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y"
+                                    className="text-green-600"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path fillRule="evenodd"
@@ -48,14 +48,14 @@ export default function BudgetInfo({budgetInfo, token}) {
                                 </svg>
                             </div>
                             <div className="flex flex-col gap-1">
-                                <span className="font-light text-gray-600">Kalan Butce</span>
-                                <span className="font-semibold text-gray-900">TL {info?.amount}</span>
+                                <span className="font-medium text-slate-600 text-sm">Kalan Butce</span>
+                                <span className="font-bold text-slate-900 text-lg">₺ {info?.amount}</span>
                             </div>
                         </div>
-                        <div className="flex gap-2 justify-start">
-                            <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
+                        <div className="flex gap-3 justify-start group">
+                            <div className="p-3 bg-gradient-to-br from-red-100 to-red-200 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
                                 <svg
-                                    className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y"
+                                    className="text-red-600"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path fillRule="evenodd"
@@ -64,14 +64,14 @@ export default function BudgetInfo({budgetInfo, token}) {
                                 </svg>
                             </div>
                             <div className="flex flex-col gap-1">
-                                <span className="font-light text-gray-600">Toplam Harcama</span>
-                                <span className="font-semibold text-gray-900">TL {info?.expense}</span>
+                                <span className="font-medium text-slate-600 text-sm">Toplam Harcama</span>
+                                <span className="font-bold text-slate-900 text-lg">₺ {info?.expense}</span>
                             </div>
                         </div>
-                        <div className="flex gap-2 justify-start">
-                            <div className="info?.p-3 bg-[#f3f4f6] rounded-full flex items-center justify-center">
+                        <div className="flex gap-3 justify-start group">
+                            <div className="p-3 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
                                 <svg
-                                    className="MnxxlQlR1H0xJuMEE8Yr YIUegm7fh_CpJbivTu6B PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y"
+                                    className="text-purple-600"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path fillRule="evenodd"
@@ -83,16 +83,16 @@ export default function BudgetInfo({budgetInfo, token}) {
                                 </svg>
                             </div>
                             <div className="flex flex-col gap-1">
-                                <span className="font-light text-gray-600">Toplam Birikim</span>
-                                <span className="font-semibold text-gray-900">TL {info?.saving}</span>
+                                <span className="font-medium text-slate-600 text-sm">Toplam Birikim</span>
+                                <span className="font-bold text-slate-900 text-lg">₺ {info?.saving}</span>
                             </div>
                         </div>
                         <div className="flex gap-3 justify-start items-center">
                             <button
-                                className="border max-h-[40px] hover:bg-[#efefef] transaction duration-300 border-[#e5e7eb] text-[#000] py-2 px-3 gap-2 flex items-center text-sm justify-center rounded-lg"
+                                className="border max-h-[44px] hover:bg-slate-50 hover:border-slate-300 transition-all duration-300 border-slate-200 text-slate-700 py-2 px-4 gap-2 flex items-center text-sm justify-center rounded-xl shadow-sm hover:shadow-md font-medium"
                                 onClick={() => setIsOpen(true)}>
                                 <svg
-                                    className="_Tk8743voA_rOget_8jS IRKzgyPj4qWOh2vq2xBg _o2IXcpM0qnG3JPReKus E9GV5sZJIbfO_GEQ_moc"
+                                    className="text-slate-600"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" width={16}
                                     height={16} viewBox="0 0 24 24">
                                     <path fillRule="evenodd"
@@ -106,9 +106,9 @@ export default function BudgetInfo({budgetInfo, token}) {
                                 Yeni Giris
                             </button>
                             <button
-                                className="border max-h-[40px] bg-[#004caa] hover:bg-[#01387c] transaction duration-300 text-white py-2 px-3 text-sm flex items-center justify-center rounded-lg"
+                                className="border max-h-[44px] bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-white py-2 px-4 text-sm flex items-center justify-center rounded-xl shadow-lg hover:shadow-xl font-medium"
                                 onClick={() => setIsOpenEditBudget(true)}>
-                                <svg className="rxe6apEJoEk8r75xaVNG ADSeKHR1DvUUA48Chci_" aria-hidden="true"
+                                <svg className="mr-1" aria-hidden="true"
                                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
                                      width={20} height={20}>
                                     <path fillRule="evenodd"
@@ -118,6 +118,7 @@ export default function BudgetInfo({budgetInfo, token}) {
                                           d="M19.8 4.3a2.1 2.1 0 0 0-1-1.1 2 2 0 0 0-2.2.4l-.6.6 2.9 3 .5-.6a2.1 2.1 0 0 0 .6-1.5c0-.2 0-.5-.2-.8Zm-2.4 4.4-2.8-3-4.8 5-.1.3-.7 3c0 .3.3.7.6.6l2.7-.6.3-.1 4.7-5Z"
                                           clipRule="evenodd"></path>
                                 </svg>
+                                Duzenle
                             </button>
                         </div>
                     </div>

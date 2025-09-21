@@ -97,7 +97,7 @@ export const UseEditBudget = async (token, data, id) => {
             return;
         }
 
-        toast.success("Bütçe başarıyla güncellendi");
+        toast.success("Butce basariyla guncellendi");
         return await res.json();
     } catch (error) {
         console.log(error);

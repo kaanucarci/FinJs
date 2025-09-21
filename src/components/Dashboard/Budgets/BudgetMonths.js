@@ -27,7 +27,7 @@ export default function BudgetMonths({ budgetMonths = [], onMonthSelect, activeI
         }
     }, [activeIndex, budgetMonths]);
     return (
-        <div className="bg-[#fff] border-b border-[#e5e7eb]">
+        <div className="bg-white/60 backdrop-blur-sm border-b border-slate-200/50 shadow-sm">
             <div className="max-w-4xl mx-auto p-6 flex flex-row justify-start items-center gap-3 overflow-auto">
                 {Object.values(budgetMonths).map((month, index) => (
                     <button
@@ -35,10 +35,10 @@ export default function BudgetMonths({ budgetMonths = [], onMonthSelect, activeI
                         disabled={index === activeIndex}
                         ref={(el) => (buttonsRef.current[index] = el)}
                         onClick={() => handleMonthClick(index, month)}
-                        className={`border p-2 px-3 rounded-lg text-sm transition duration-300
+                        className={`border p-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 transform hover:scale-105 active:scale-95
               ${index === activeIndex
-                            ? "bg-[#004caa] text-white  outline-2 outline-offset-2 outline-[#004caa]"
-                            : "hover:bg-[#f4f4f4] border-[#e5e7eb]"
+                            ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25 border-blue-600 scale-105"
+                            : "hover:bg-blue-50 hover:border-blue-200 border-slate-200 text-slate-700 hover:text-blue-700 shadow-sm hover:shadow-md"
                         }`}
                     >
                         {months[month?.month - 1]}

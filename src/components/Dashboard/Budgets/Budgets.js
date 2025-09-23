@@ -7,7 +7,7 @@ import { useAuth } from "@/components/AuthProvider";
 import {UseGetBudgetInfo, UseGetBudgetItems, UseGetBudgets} from "@/api/api";
 
 
-const Budgets = () => {
+const Budgets = ({budgetYear}) => {
 
     const [budgetMonths, setBudgetMonths] = useState([]);
     const [selectedBudget, setSelectedBudget] = useState([]);
@@ -30,7 +30,7 @@ const Budgets = () => {
 
             if (defaultBudget) {
                 fetchBudgetInfo(defaultBudget.id);
-                fetchBudgetItems(defaultBudget.id, { BudgetYear: new Date().getFullYear() })
+                fetchBudgetItems(defaultBudget.id, { BudgetYear: budgetYear })
                 const defaultIndex = data.findIndex(m => m.month === currentMonth);
                 setActiveIndex(defaultIndex);
             }
@@ -53,7 +53,7 @@ const Budgets = () => {
 
     const handleMonthSelect = (monthObj, index) => {
         fetchBudgetInfo(monthObj.id || monthObj.budgetId);
-        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: new Date().getFullYear() })
+        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: budgetYear })
         setActiveIndex(index);
     };
 

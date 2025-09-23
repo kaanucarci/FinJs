@@ -1,5 +1,6 @@
 "use client";
 
+import BudgetSettingsModal from "@/components/Dashboard/Budgets/BudgetSettingsModal";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
@@ -23,7 +24,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 px-5 border-b border-slate-200/50 shadow-modern sticky top-0 z-40">
+    <>
+    <header className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 px-5 border-b border-slate-200/50 shadow-modern sticky top-0 z-10">
       <div className="flex gap-5">
         <Image src="/finjs_logo.png" alt="Logo" width={150} height={45} className="drop-shadow-sm" />
         <button
@@ -77,6 +79,20 @@ export default function Header() {
         {open && (
           <div className="absolute right-0 mt-2 w-40 bg-white/95 backdrop-blur-md border border-slate-200/50 rounded-xl shadow-modern-lg z-50 animate-in slide-in-from-top-2 duration-200">
             <ul className="p-1">
+              <li className="border-b border-slate-200/50">
+                <button
+                  className="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700 flex gap-1 justify-start items-center rounded-lg transition-all duration-200 font-medium"
+                  onClick={() => setIsOpen(true)}
+                >
+                  <Image
+                    src="/setting.svg"
+                    width={20}
+                    height={20}
+                    alt="setting icon"
+                  />
+                  Ayarlar
+                </button>
+              </li>
               <li>
                 <button
                   className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 flex gap-1 justify-start items-center rounded-lg transition-all duration-200 font-medium"
@@ -106,5 +122,7 @@ export default function Header() {
         )}
       </div>
     </header>
+    <BudgetSettingsModal  isOpen={isOpen} setIsOpen={setIsOpen}/>
+    </>
   );
 }

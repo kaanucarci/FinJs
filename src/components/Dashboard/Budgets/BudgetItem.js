@@ -30,11 +30,10 @@ export default function BudgetItem({budgetItem, token}) {
                 return (<div
                         key={item?.expenseType + '-' + item?.id}
                         className="border-b w-full border-slate-200/50 py-6 px-2 lg:px-6 last:border-b-0 hover:bg-slate-50/50 transition-all duration-300 rounded-lg group">
-                        <div
-                            className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-14 gap-4 w-full">
-                            <div className="flex flex-row lg:flex-col items-center justify-start gap-2 lg:w-24">
-                                <div className="flex flex-col items-center lg:items-start">
-                                    <span className="text-lg lg:text-3xl text-slate-900 font-bold">{day}</span>
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-14 gap-4 w-full">
+                            <div className="flex items-center justify-startlg:w-24">
+                                <div className="flex flex-row lg:flex-col  gap-1  items-center ">
+                                    <span className="text-xs lg:text-3xl text-slate-900 lg:font-bold">{day}</span>
                                     <span className="text-xs lg:text-sm text-slate-600 whitespace-nowrap font-medium">
                                         {month} {year}
                                     </span>
@@ -43,7 +42,6 @@ export default function BudgetItem({budgetItem, token}) {
                                     </span>
                                 </div>
                             </div>
-
                             <div className="flex flex-col justify-center gap-3 w-full">
                                 <div className="flex items-center justify-between w-full">
                                     <div className="flex items-center gap-2">
@@ -70,10 +68,10 @@ export default function BudgetItem({budgetItem, token}) {
                         </div>
                     </div>);
             }))}
-            <EditBudgetItem isOpen={isOpen} setIsOpen={setIsOpen} budgetItem={selectedItem} token={token} onSuccess={(updated) => {
-                if (updated === null) {
+            <EditBudgetItem isOpen={isOpen} setIsOpen={setIsOpen} budgetItem={selectedItem} token={token} onSuccess={(action, updated) => {
+                if (updated === null && action === 'delete') {
                     setItem((prev) => prev.filter((item) => item.id !== selectedItem?.id));
-                } else {
+                } else if (updated !== null && action === 'update') {
                     setItem((prev) =>
                         prev.map((item) =>
                             item.id === updated?.id ? updated : item

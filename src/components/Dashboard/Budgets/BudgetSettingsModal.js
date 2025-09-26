@@ -1,6 +1,100 @@
 import { createPortal } from "react-dom";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import { UseCreateBudgetYear } from "@/api/api";
+import { useAuth } from "@/components/AuthProvider";
 
-export default function ManageBudgetSettings({ isOpen, setIsOpen }) {
+export default function BudgetSettingsModal({ isOpen, setIsOpen, budgetYear, setBudgetYear, availableYears = [] }) {
+  const { token } = useAuth();
+  const [selectedYear, setSelectedYear] = useState(budgetYear);
+  const [newYear, setNewYear] = useState("");
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedYear(budgetYear);
+      setNewYear("");
+    }
+  }, [isOpen, budgetYear]);
+
+  const handleSave = async () => {
+    if (selectedYear === budgetYear) {
+      setIsOpen(false);
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Butce Yili Degistir',
+      text: `Butce yilini ${budgetYear} yilindan ${selectedYear} yilina degistirmek istediginizden emin misiniz?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3b82f6',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Evet, Degistir',
+      cancelButtonText: 'Iptal'
+    });
+
+    if (result.isConfirmed) {
+      setBudgetYear(selectedYear);
+      setIsOpen(false);
+      location.reload();
+    }
+  };
+
+  const handleCreateYear = async () => {
+    if (!newYear || newYear.length !== 4) {
+      Swal.fire({
+        title: 'Hata!',
+        text: 'Gecerli bir yil giriniz (4 haneli)',
+        icon: 'error',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      return;
+    }
+
+    const year = parseInt(newYear);
+    if (availableYears.includes(year)) {
+      Swal.fire({
+        title: 'Hata!',
+        text: 'Bu yil zaten mevcut',
+        icon: 'error',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Yeni Butce Yili Olustur',
+      text: `${year} yili icin yeni butce olusturmak istediginizden emin misiniz?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3b82f6',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Evet, Olustur',
+      cancelButtonText: 'Iptal'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await UseCreateBudgetYear(token, year);
+        if (response) {
+          setNewYear("");
+          setIsOpen(false);
+          location.reload();
+        }
+      } catch (error) {
+        Swal.fire({
+          title: 'Hata!',
+          text: error?.message || 'Yil olusturulurken bir hata olustu',
+          icon: 'error',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    }
+  };
+
   return (
     isOpen &&
     createPortal(
@@ -37,13 +131,22 @@ export default function ManageBudgetSettings({ isOpen, setIsOpen }) {
               <select
                 name="year"
                 id="year"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/80 backdrop-blur-sm"
               >
-                <option value="2025">2025</option>
+                {availableYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
               </select>
             </div>
 
-            <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+            <button 
+              onClick={handleSave}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
+            >
               Kaydet
             </button>
           </div>
@@ -58,11 +161,19 @@ export default function ManageBudgetSettings({ isOpen, setIsOpen }) {
               <input
                 name="year"
                 id="year"
+                value={newYear}
+                onChange={(e) => setNewYear(e.target.value)}
                 className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/80 backdrop-blur-sm"
                 type="number"
+                placeholder="Orn: 2027"
+                min="2020"
+                max="2100"
               />
             </div>
-            <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+            <button 
+              onClick={handleCreateYear}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
+            >
               Olustur
             </button>
           </div>

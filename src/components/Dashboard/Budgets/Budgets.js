@@ -22,7 +22,7 @@ const Budgets = ({budgetYear}) => {
         hasFetched.current = true;
 
         async function fetchBudgets() {
-            const data = await UseGetBudgets(token);
+            const data = await UseGetBudgets(token, budgetYear);
             setBudgetMonths(data);
 
             const currentMonth = new Date().getMonth() + 1;
@@ -60,7 +60,7 @@ const Budgets = ({budgetYear}) => {
 
     return (
         <>
-            <BudgetMonths budgetMonths = {budgetMonths} onMonthSelect={handleMonthSelect} activeIndex={activeIndex}/>
+            <BudgetMonths budgetMonths = {budgetMonths} onMonthSelect={handleMonthSelect} activeIndex={activeIndex} budgetYear={budgetYear}/>
             <BudgetInfo  budgetInfo={selectedBudget} token={token} />
             <BudgetItems budgetItems={budgetItems} token={token}/>
         </>

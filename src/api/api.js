@@ -64,7 +64,7 @@ export const UserLogin = async (username, password) => {
 };
 
 export const UseGetBudgetYears = async (token) => {
-    const res = await request(`/Budget/years`, {
+    const res = await request(`/Budget/year`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -75,8 +75,22 @@ export const UseGetBudgetYears = async (token) => {
     return await res.json();
 }
 
-export const UseGetBudgets = async (token) => {
-    const res = await request(`/Budget`, {
+export const UseCreateBudgetYear = async (token, year) => {
+    const res = await request(`/Budget/year/${year}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+    if (!res) return null;
+
+    toast.success("Butce basariyla olusturuldu!");
+    return res.json();
+};
+
+export const UseGetBudgets = async (token, budgetYear) => {
+    const res = await request(`/Budget/get/${budgetYear}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

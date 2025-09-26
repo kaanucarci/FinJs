@@ -74,7 +74,7 @@ export default function EditBudget({ isOpen, setIsOpen, budgetInfo , token, onSu
                   <option value={9}>Eylul</option>
                   <option value={10}>Ekim</option>
                   <option value={11}>Kasim</option>
-                  <option value={12}>Aralık</option>
+                  <option value={12}>Aralik</option>
               </select>
             </div>
             <div>

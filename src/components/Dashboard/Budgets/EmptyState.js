@@ -5,7 +5,7 @@ export default function EmptyState() {
         <div className="flex flex-col items-center justify-center w-full px-4 py-12">
             <div className="mb-6 relative">
                 <Image
-                    src="/empty.gif"
+                    src="/page-not-found.svg"
                     alt="No items"
                     width={150}
                     height={150}

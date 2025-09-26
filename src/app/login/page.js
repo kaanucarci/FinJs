@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../components/AuthProvider";
 import { useRouter } from "next/navigation";
 import { UserLogin } from "../../api/api";
@@ -9,11 +9,17 @@ import { User, Lock } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, token, loading } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!loading && token) {
+      router.push("/");
+    }
+  }, [token, loading, router]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,6 +39,14 @@ export default function LoginPage() {
       setError("Login failed. Server error.");
     }
   };
+
+  if (loading || token) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-200">
+        <div className="text-lg">Yukleniyor...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200 bg-[url('/bg_pattern.png')] bg-cover bg-center">

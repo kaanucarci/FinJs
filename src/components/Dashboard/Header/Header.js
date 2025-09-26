@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import SearchModal from "@/components/Dashboard/Header/SearchModal";
 
-export default function Header() {
+export default function Header({ budgetYear, setBudgetYear, availableYears = [] }) {
   const [open, setOpen] = useState(false);
   const { logout } = useAuth();
   const dropdownRef = useRef(null);
@@ -28,6 +28,8 @@ export default function Header() {
     <header className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 px-5 border-b border-slate-200/50 shadow-modern sticky top-0 z-10">
       <div className="flex gap-5">
         <Image src="/finjs_logo.png" alt="Logo" width={150} height={45} className="drop-shadow-sm" />
+        
+        
         <button
           type="button"
           className="btn border p-2 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 rounded-xl border-slate-200 shadow-sm hover:shadow-md group"
@@ -122,7 +124,13 @@ export default function Header() {
         )}
       </div>
     </header>
-    <BudgetSettingsModal  isOpen={isOpen} setIsOpen={setIsOpen}/>
+    <BudgetSettingsModal  
+      isOpen={isOpen} 
+      setIsOpen={setIsOpen}
+      budgetYear={budgetYear}
+      setBudgetYear={setBudgetYear}
+      availableYears={availableYears}
+    />
     </>
   );
 }

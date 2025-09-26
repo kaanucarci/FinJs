@@ -18,8 +18,9 @@ export default function BudgetItem({budgetItem, token}) {
         setIsOpen(true);
     }
 
+    
     return (<>
-            {data?.length < 1 ? (<EmptyState/>) : (data?.map((item) => {
+            {!data || data?.length < 1 ? (<EmptyState/>) : (data?.map((item) => {
                 const date = new Date(item?.createdDate);
                 const day = date.getDate();
                 const month = date.toLocaleString("en-US", {month: "short"}).toUpperCase();

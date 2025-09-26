@@ -101,8 +101,8 @@ export const UseGetBudgets = async (token, budgetYear) => {
     return await res.json();
 };
 
-export const UseGetBudgetInfo = async (token, id) => {
-    const res = await request(`/Budget/${id}`, {
+export const UseGetBudgetInfo = async (token, id, budgetYear) => {
+    const res = await request(`/Budget/${id}?budgetYear=${budgetYear}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -141,8 +141,8 @@ export const UseGetBudgetItems = async (token, filterParams, id) => {
     return await res.json();
 };
 
-export const UseAddBudgetItem = async (token, data, endPoint) => {
-    const res = await request(`/${endPoint}`, {
+export const UseAddBudgetItem = async (token, data) => {
+    const res = await request(`/expense`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -156,8 +156,8 @@ export const UseAddBudgetItem = async (token, data, endPoint) => {
     return await res.json();
 };
 
-export const UseEditBudgetItem = async (token, data, endPoint, id) => {
-    const res = await request(`/${endPoint}/${id}`, {
+export const UseEditBudgetItem = async (token, data, id) => {
+    const res = await request(`/expense/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -171,8 +171,8 @@ export const UseEditBudgetItem = async (token, data, endPoint, id) => {
     return await res.json();
 };
 
-export const UseDeleteBudgetItem = async (token, endPoint, id) => {
-    const res = await request(`/${endPoint}/${id}`, {
+export const UseDeleteBudgetItem = async (token, id) => {
+    const res = await request(`/expense/${id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

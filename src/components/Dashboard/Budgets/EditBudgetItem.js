@@ -1,23 +1,25 @@
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 import {UseEditBudgetItem, UseDeleteBudgetItem} from "@/api/api";
+import {useState} from "react";
 import Swal from "sweetalert2";
 
 export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, onSuccess }) {
 
     const amount = useRef();
     const description = useRef();
-    const endPoint = budgetItem?.expenseType == 1 ? "Expense" : "Saving";
-
+    
+    const [expenseType, setExpenseType] = useState(budgetItem?.expenseType);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
             amount: amount.current.value,
             description: description.current.value,
             budgetId : budgetItem.budgetId,
+            expenseType : parseInt(expenseType)
         };
 
-        const updated = await UseEditBudgetItem(token, data, endPoint, budgetItem?.id);
+        const updated = await UseEditBudgetItem(token, data, budgetItem?.id);
         if (onSuccess) onSuccess('update', updated);
         setIsOpen(false);
     };
@@ -42,6 +44,10 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         setIsOpen(false);
     }
 
+    useEffect(() => {
+        setExpenseType(budgetItem?.expenseType);
+    }, [budgetItem]);
+
 
     return isOpen && createPortal(
       <div className="fixed inset-0 z-[11] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
@@ -58,6 +64,43 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
             {budgetItem?.expenseType === 1 ? "Harcama" : "Birikim"} Duzenle
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Islem Tipini Seciniz
+              </label>
+              <div className="flex gap-4">
+                  <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={expenseType == 1} 
+                        onChange={(e) => setExpenseType(e.target.value)} 
+                        name="expense_type" 
+                        id="expense" 
+                        value={1}
+                        className="w-4 h-4 text-red-600 border-slate-300 focus:ring-red-500"
+                      />
+                      <label htmlFor="expense" className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                        Harcama
+                      </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={expenseType == 2} 
+                        onChange={(e) => setExpenseType(e.target.value)} 
+                        name="expense_type" 
+                        id="saving" 
+                        value={2}
+                        className="w-4 h-4 text-green-600 border-slate-300 focus:ring-green-500"
+                      />
+                      <label htmlFor="saving" className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        Birikim
+                      </label>
+                  </div>
+              </div>
+            </div>
             <div>
               <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
                 Tutar (₺)

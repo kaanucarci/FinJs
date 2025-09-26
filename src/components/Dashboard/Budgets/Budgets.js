@@ -13,6 +13,11 @@ const Budgets = ({budgetYear}) => {
     const [selectedBudget, setSelectedBudget] = useState([]);
     const [budgetItems, setBudgetItems] = useState([]);
     const [activeIndex, setActiveIndex] = useState(() => new Date().getMonth());
+    const [pagination, setPagination] = useState({
+        page: 1,
+        pageSize: 10,
+        totalCount: 0
+    });
     const { token } = useAuth();
     const hasFetched = useRef(false);
 
@@ -30,7 +35,7 @@ const Budgets = ({budgetYear}) => {
 
             if (defaultBudget) {
                 fetchBudgetInfo(defaultBudget.id);
-                fetchBudgetItems(defaultBudget.id, { BudgetYear: budgetYear })
+                fetchBudgetItems(defaultBudget.id, { BudgetYear: budgetYear, page: 1, pageSize: 10 })
                 const defaultIndex = data.findIndex(m => m.month === currentMonth);
                 setActiveIndex(defaultIndex);
             }
@@ -41,7 +46,7 @@ const Budgets = ({budgetYear}) => {
 
     const fetchBudgetInfo = async (budgetId) => {
         if (!token) return;
-        const data = await UseGetBudgetInfo(token, budgetId);
+        const data = await UseGetBudgetInfo(token, budgetId, budgetYear);
         setSelectedBudget(data);
     };
 
@@ -49,20 +54,48 @@ const Budgets = ({budgetYear}) => {
         if (!token) return;
         const data = await UseGetBudgetItems(token, filterParams, budgetId);
         setBudgetItems(data);
+        
+        const paginationData = Array.isArray(data) ? data[0] : data;
+        
+        if (paginationData && typeof paginationData === 'object') {
+            setPagination({
+                page: paginationData.page || 1,
+                pageSize: paginationData.pageSize || 10,
+                totalCount: paginationData.totalCount || 0
+            });
+        }
     };
 
     const handleMonthSelect = (monthObj, index) => {
         fetchBudgetInfo(monthObj.id || monthObj.budgetId);
-        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: budgetYear })
+        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: budgetYear, page: 1, pageSize: 10 })
         setActiveIndex(index);
+        setPagination(prev => ({ ...prev, page: 1 })); 
     };
 
+    const handlePageChange = (newPage) => {
+        if (!selectedBudget || !selectedBudget.id) return;
+        
+        const budgetId = selectedBudget.id;
+        fetchBudgetItems(budgetId, { 
+            BudgetYear: budgetYear, 
+            page: newPage, 
+            pageSize: pagination.pageSize 
+        });
+    };
+
+    
 
     return (
         <>
             <BudgetMonths budgetMonths = {budgetMonths} onMonthSelect={handleMonthSelect} activeIndex={activeIndex} budgetYear={budgetYear}/>
             <BudgetInfo  budgetInfo={selectedBudget} token={token} />
-            <BudgetItems budgetItems={budgetItems} token={token}/>
+            <BudgetItems 
+                budgetItems={budgetItems} 
+                token={token} 
+                pagination={pagination}
+                onPageChange={handlePageChange}
+            />
         </>
     )
 }

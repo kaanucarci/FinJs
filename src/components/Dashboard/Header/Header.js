@@ -12,6 +12,7 @@ export default function Header({ budgetYear, setBudgetYear, availableYears = [] 
   const dropdownRef = useRef(null);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setSearchIsOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,7 +34,7 @@ export default function Header({ budgetYear, setBudgetYear, availableYears = [] 
         <button
           type="button"
           className="btn border p-2 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 rounded-xl border-slate-200 shadow-sm hover:shadow-md group"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setSearchIsOpen(true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +53,7 @@ export default function Header({ budgetYear, setBudgetYear, availableYears = [] 
             />
           </svg>
         </button>
-        <SearchModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <SearchModal isSearchOpen={isSearchOpen} setSearchIsOpen={setSearchIsOpen} />
       </div>
       <div className="gap-5 relative inline-block text-left" ref={dropdownRef}>
         <button

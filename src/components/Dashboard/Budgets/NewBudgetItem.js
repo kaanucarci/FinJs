@@ -3,19 +3,19 @@ import {useState} from "react";
 import {createPortal} from "react-dom";
 
 export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) {
-    const [expenseType, setExpenseType] = useState("Expense");
+    const [expenseType, setExpenseType] = useState(1);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const expenseType = formData.get("expense_type");
         const data = {
             budgetId : budgetItem.budgetId,
             amount : formData.get("amount"),
             description : formData.get("description"),
+            expenseType : parseInt(formData.get("expense_type"))
         }
 
-        await UseAddBudgetItem(token, data, expenseType);
+        await UseAddBudgetItem(token, data);
         setIsOpen(false);
     }
 
@@ -40,11 +40,11 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) 
                   <div className="flex items-center gap-2">
                       <input 
                         type="radio" 
-                        checked={expenseType === "Expense"} 
+                        checked={expenseType == 1} 
                         onChange={(e) => setExpenseType(e.target.value)} 
                         name="expense_type" 
                         id="expense" 
-                        value="Expense"
+                        value={1}
                         className="w-4 h-4 text-red-600 border-slate-300 focus:ring-red-500"
                       />
                       <label htmlFor="expense" className="text-sm font-medium text-slate-700 flex items-center gap-2">
@@ -55,11 +55,11 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) 
                   <div className="flex items-center gap-2">
                       <input 
                         type="radio" 
-                        checked={expenseType === "Saving"} 
+                        checked={expenseType == 2} 
                         onChange={(e) => setExpenseType(e.target.value)} 
                         name="expense_type" 
                         id="saving" 
-                        value="Saving"
+                        value={2}
                         className="w-4 h-4 text-green-600 border-slate-300 focus:ring-green-500"
                       />
                       <label htmlFor="saving" className="text-sm font-medium text-slate-700 flex items-center gap-2">

@@ -26,7 +26,7 @@ export default function Header({ budgetYear, setBudgetYear, availableYears = [] 
 
   return (
     <>
-    <header className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 px-5 border-b border-slate-200/50 shadow-modern sticky top-0 z-10">
+    <header className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 px-5 border-b border-slate-200/50 shadow-modern sticky top-0 z-10 safe-area-top">
       <div className="flex gap-5">
         <Image src="/finjs_logo.png" alt="Logo" width={150} height={45} className="drop-shadow-sm" />
         

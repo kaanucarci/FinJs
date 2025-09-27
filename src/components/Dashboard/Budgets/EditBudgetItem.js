@@ -23,7 +23,6 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         if (updated && onSuccess) {
             onSuccess('update', updated);
         }
-        // Her durumda modal'ı kapat (başarılı veya hatalı)
         setIsOpen(false);
     };
 
@@ -46,7 +45,6 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         if (deleted && onSuccess) {
             onSuccess('delete', null);
         }
-        // Her durumda modal'ı kapat (başarılı veya hatalı)
         setIsOpen(false);
     }
 
@@ -109,7 +107,7 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
             </div>
             <div>
               <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
-                Tutar (₺)
+                Tutar (TL)
               </label>
               <input
                 type="number"

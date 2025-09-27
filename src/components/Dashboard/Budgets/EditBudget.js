@@ -19,12 +19,12 @@ export default function EditBudget({ isOpen, setIsOpen, budgetInfo , token, onSu
         };
         const updated = await UseEditBudget(token, data, budgetInfo.budgetId);
         
-        // Sadece başarılı güncelleme durumunda state'i güncelle
+        // Sadece basarili guncelleme durumunda state'i guncelle
         if (updated && onSuccess) {
             onSuccess(updated);
         }
         
-        // Her durumda modal'ı kapat (başarılı veya hatalı)
+        // Her durumda modal'i kapat (basarili veya hatali)
         setIsOpen(false);
     };
 

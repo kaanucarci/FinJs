@@ -45,7 +45,7 @@ export default function BudgetInfo({ budgetInfo, token, onBudgetUpdate, onBudget
                   Toplam Butce
                 </span>
                 <span className="font-bold text-slate-900 text-lg">
-                  ₺ {info?.totalAmount}
+                  TL {info?.totalAmount}
                 </span>
               </div>
             </div>
@@ -72,7 +72,7 @@ export default function BudgetInfo({ budgetInfo, token, onBudgetUpdate, onBudget
                   Kalan Butce
                 </span>
                 <span className="font-bold text-slate-900 text-lg">
-                  ₺ {info?.amount}
+                  TL {info?.amount}
                 </span>
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function BudgetInfo({ budgetInfo, token, onBudgetUpdate, onBudget
                   Toplam Harcama
                 </span>
                 <span className="font-bold text-slate-900 text-lg">
-                  ₺ {info?.expense}
+                  TL {info?.expense}
                 </span>
               </div>
             </div>
@@ -131,7 +131,7 @@ export default function BudgetInfo({ budgetInfo, token, onBudgetUpdate, onBudget
                   Toplam Birikim
                 </span>
                 <span className="font-bold text-slate-900 text-lg">
-                  ₺ {info?.saving}
+                  TL {info?.saving}
                 </span>
               </div>
             </div>

@@ -19,7 +19,7 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token, on
         if (newItem && onSuccess) {
             onSuccess(newItem);
         }
-        // Her durumda modal'ı kapat (başarılı veya hatalı)
+        // Her durumda modal'i kapat (basarili veya hatali)
         setIsOpen(false);
     }
 
@@ -75,7 +75,7 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token, on
             </div>
             <div>
               <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
-                Tutar (₺)
+                Tutar (TL)
               </label>
               <input
                 type="number"

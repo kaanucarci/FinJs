@@ -91,7 +91,7 @@ const Budgets = ({budgetYear}) => {
             pageSize: pagination.pageSize 
         });
         
-        // Pagination state'ini güncelle
+        // Pagination state'ini guncelle
         setPagination(prev => ({
             ...prev,
             page: newPage
@@ -100,41 +100,41 @@ const Budgets = ({budgetYear}) => {
 
     
 
-    // Token yoksa hiçbir şey render etme
+    // Token yoksa hicbir sey render etme
     if (!token) {
         return null;
     }
 
-    // Optimistic update fonksiyonları
+    // Optimistic update fonksiyonlari
     const handleBudgetUpdate = (updatedBudget) => {
         setSelectedBudget(updatedBudget);
     };
 
     const handleBudgetItemAdd = (newItem) => {
-        // BudgetItems state'ini güncelle
+        // BudgetItems state'ini guncelle
         setBudgetItems(prev => {
             if (Array.isArray(prev) && prev.length > 0 && prev[0] && prev[0].expenses) {
                 const updated = [...prev];
                 const currentExpenses = updated[0].expenses;
                 const pageSize = updated[0].pageSize || 5;
                 
-                // Eğer ilk sayfada yer varsa, yeni item'ı ekle
+                // Eger ilk sayfada yer varsa, yeni item'i ekle
                 if (currentExpenses.length < pageSize) {
                     updated[0] = {
                         ...updated[0],
                         expenses: [newItem, ...currentExpenses]
                     };
                 } else {
-                    // İlk sayfa doluysa, yeni item'ı ekle ama sayfa boyutunu koru
+                    // Ilk sayfa doluysa, yeni item'i ekle ama sayfa boyutunu koru
                     const newExpenses = [newItem, ...currentExpenses];
                     updated[0] = {
                         ...updated[0],
-                        expenses: newExpenses.slice(0, pageSize) // Sadece ilk 5 item'ı tut
+                        expenses: newExpenses.slice(0, pageSize) // Sadece ilk 5 item'i tut
                     };
                 }
                 return updated;
             } else {
-                // Eğer prev boş veya farklı formatta ise
+                // Eger prev bos veya farkli formatta ise
                 return [{
                     expenses: [newItem],
                     page: 1,
@@ -144,13 +144,13 @@ const Budgets = ({budgetYear}) => {
             }
         });
         
-        // Pagination'ı güncelle
+        // Pagination'i guncelle
         setPagination(prev => ({
             ...prev,
             totalCount: prev.totalCount + 1
         }));
         
-        // Budget info'yu da güncelle
+        // Budget info'yu da guncelle
         if (selectedBudget) {
             const updatedBudget = { ...selectedBudget };
             if (newItem.expenseType === 1) {
@@ -165,7 +165,7 @@ const Budgets = ({budgetYear}) => {
     };
 
     const handleBudgetItemUpdate = (updatedItem) => {
-        // BudgetItems state'ini güncelle
+        // BudgetItems state'ini guncelle
         setBudgetItems(prev => {
             if (Array.isArray(prev) && prev.length > 0 && prev[0] && prev[0].expenses) {
                 const updated = [...prev];
@@ -180,17 +180,17 @@ const Budgets = ({budgetYear}) => {
             return prev;
         });
         
-        // Budget info'yu da güncelle
+        // Budget info'yu da guncelle
         if (selectedBudget) {
             const updatedBudget = { ...selectedBudget };
-            // Eski item'ı bul ve farkı hesapla
+            // Eski item'i bul ve farki hesapla
             const oldItem = budgetItems[0]?.expenses?.find(item => item.id === updatedItem.id);
             if (oldItem) {
                 const amountDiff = parseFloat(updatedItem.amount) - parseFloat(oldItem.amount);
                 const typeChanged = oldItem.expenseType !== updatedItem.expenseType;
                 
                 if (typeChanged) {
-                    // Tip değiştiyse eski tutarı geri al, yeni tutarı ekle
+                    // Tip degistiyse eski tutari geri al, yeni tutari ekle
                     if (oldItem.expenseType === 1) {
                         updatedBudget.expense = (updatedBudget.expense || 0) - parseFloat(oldItem.amount);
                         updatedBudget.amount = (updatedBudget.amount || 0) + parseFloat(oldItem.amount);
@@ -207,7 +207,7 @@ const Budgets = ({budgetYear}) => {
                         updatedBudget.amount = (updatedBudget.amount || 0) + parseFloat(updatedItem.amount);
                     }
                 } else {
-                    // Tip aynıysa sadece farkı ekle/çıkar
+                    // Tip ayniysa sadece farki ekle/cikar
                     if (updatedItem.expenseType === 1) {
                         updatedBudget.expense = (updatedBudget.expense || 0) + amountDiff;
                         updatedBudget.amount = (updatedBudget.amount || 0) - amountDiff;
@@ -222,7 +222,7 @@ const Budgets = ({budgetYear}) => {
     };
 
     const handleBudgetItemDelete = (deletedItemId) => {
-        // BudgetItems state'ini güncelle
+        // BudgetItems state'ini guncelle
         setBudgetItems(prev => {
             if (Array.isArray(prev) && prev.length > 0 && prev[0] && prev[0].expenses) {
                 const updated = [...prev];
@@ -235,13 +235,13 @@ const Budgets = ({budgetYear}) => {
             return prev;
         });
         
-        // Pagination'ı güncelle
+        // Pagination'i guncelle
         setPagination(prev => ({
             ...prev,
             totalCount: prev.totalCount - 1
         }));
         
-        // Budget info'yu da güncelle
+        // Budget info'yu da guncelle
         if (selectedBudget) {
             const deletedItem = budgetItems[0]?.expenses?.find(item => item.id === deletedItemId);
             if (deletedItem) {

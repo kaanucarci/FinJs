@@ -8,7 +8,7 @@ import { UseGetBudgetYears } from "@/api/api";
 import { useAuth } from "@/components/AuthProvider";
 import { getCookie, setCookie } from "@/utils/cookie";
 
-export default function MainLayout({ children }) {
+export default function MainLayout() {
   const { token } = useAuth();
   const [budgetYear, setBudgetYear] = useState(new Date().getFullYear());
   const [availableYears, setAvailableYears] = useState([]);
@@ -26,7 +26,7 @@ export default function MainLayout({ children }) {
         if (years && Array.isArray(years)) {
           setAvailableYears(years);
           
-          const cookieYear = getCookie('budgetYear');
+          const cookieYear = await getCookie('budgetYear');
           let selectedYear;
           
           if (cookieYear && years.includes(parseInt(cookieYear))) {
@@ -37,7 +37,7 @@ export default function MainLayout({ children }) {
           }
           
           setBudgetYear(selectedYear);
-          setCookie('budgetYear', selectedYear.toString());
+          await setCookie('budgetYear', selectedYear.toString());
         }
       } catch (error) {
         console.error('Yillar yuklenirken hata:', error);
@@ -50,9 +50,9 @@ export default function MainLayout({ children }) {
     initializeBudgetYear();
   }, [token]);
 
-  const handleBudgetYearChange = (newYear) => {
+  const handleBudgetYearChange = async (newYear) => {
     setBudgetYear(newYear);
-    setCookie('budgetYear', newYear.toString());
+    await setCookie('budgetYear', newYear.toString());
   };
 
   if (loading) {
@@ -63,7 +63,6 @@ export default function MainLayout({ children }) {
     );
   }
 
-  // Token yoksa hiçbir şey render etme
   if (!token) {
     return null;
   }

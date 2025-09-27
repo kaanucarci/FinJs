@@ -39,7 +39,7 @@ export default function SearchModal({ isSearchOpen, setSearchIsOpen }) {
     } catch (error) {
       console.error("Search error:", error);
       setBudgetItems([]);
-      setSearchError("Arama sirasinda bir hata oluştu");
+      setSearchError("Arama sirasinda bir hata olustu");
     } finally {
       setLoading(false);
     }
@@ -123,7 +123,7 @@ export default function SearchModal({ isSearchOpen, setSearchIsOpen }) {
             </button>
           </form>
 
-          {/* Hata mesajı */}
+          
           {searchError && (
             <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-red-600 text-sm">{searchError}</p>

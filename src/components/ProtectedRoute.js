@@ -15,11 +15,9 @@ export default function ProtectedRoute({ children }) {
     }
   }, [token, loading, hasRedirected, router]);
 
-  // Token varsa ve daha önce yönlendirme yapılmadıysa children'ı render et
   if (token && !hasRedirected) {
     return children;
   }
 
-  // Loading durumunda veya yönlendirme yapıldıysa null döndür
   return null;
 }

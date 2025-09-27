@@ -63,7 +63,7 @@ export default function BudgetMonths({
               {months[month?.month - 1]}
             </button>
           )) : (
-            <div className="text-slate-500 text-sm">Veri yükleniyor...</div>
+            <div className="text-slate-500 text-sm">Veri yukleniyor...</div>
           )}
         </div>
       </div>

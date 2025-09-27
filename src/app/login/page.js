@@ -68,7 +68,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Username Input */}
           <div className="relative w-full mb-4">
             <User className="absolute left-3 top-3 text-gray-500" size={20} />
             <input
@@ -79,7 +78,6 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Password Input */}
           <div className="relative w-full mb-6">
             <Lock className="absolute left-3 top-3 text-gray-500" size={20} />
             <input
@@ -91,7 +89,6 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-[#004caa]/80 hover:bg-[#004caa] text-white font-semibold py-2 rounded-lg shadow-lg transform transition duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#004caa]"

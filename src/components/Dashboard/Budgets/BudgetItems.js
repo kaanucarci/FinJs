@@ -39,7 +39,7 @@ export default function BudgetItems({budgetItems , token, pagination, onPageChan
                             </button>
                             
                         <div className="flex items-center gap-1">
-                            {/* İlk sayfa butonu - her zaman görünür */}
+                            {/* Ilk sayfa butonu - her zaman gorunur */}
                             <button
                                 onClick={() => {
                                     console.log('First page button clicked, page: 1');
@@ -54,29 +54,29 @@ export default function BudgetItems({budgetItems , token, pagination, onPageChan
                                 1
                             </button>
 
-                            {/* Üç nokta - sadece gerekli olduğunda */}
+                            {/* uc nokta - sadece gerekli oldugunda */}
                             {pagination.page > 4 && (
                                 <span className="px-2 text-slate-500">...</span>
                             )}
 
-                            {/* Orta sayfa butonları */}
+                            {/* Orta sayfa butonlari */}
                             {Array.from({ length: Math.min(3, totalPages - 2) }, (_, i) => {
                                 let pageNum;
                                 if (totalPages <= 5) {
-                                    // 5 sayfa veya daha azsa, 2'den başla (1 zaten var)
+                                    // 5 sayfa veya daha azsa, 2'den basla (1 zaten var)
                                     pageNum = i + 2;
                                 } else if (pagination.page <= 3) {
-                                    // İlk sayfalardaysa, 2-4 arası göster
+                                    // Ilk sayfalardaysa, 2-4 arasi goster
                                     pageNum = i + 2;
                                 } else if (pagination.page >= totalPages - 2) {
-                                    // Son sayfalardaysa, son 3 sayfayı göster
+                                    // Son sayfalardaysa, son 3 sayfayi goster
                                     pageNum = totalPages - 2 + i;
                                 } else {
-                                    // Ortadaysa, mevcut sayfanın etrafındaki sayfaları göster
+                                    // Ortadaysa, mevcut sayfanin etrafindaki sayfalari goster
                                     pageNum = pagination.page - 1 + i;
                                 }
                                 
-                                // İlk ve son sayfayı atla (onlar zaten ayrı butonlarda)
+                                // Ilk ve son sayfayi atla (onlar zaten ayri butonlarda)
                                 if (pageNum <= 1 || pageNum >= totalPages) return null;
                                 
                                 return (
@@ -97,12 +97,12 @@ export default function BudgetItems({budgetItems , token, pagination, onPageChan
                                 );
                             })}
 
-                            {/* Üç nokta - sadece gerekli olduğunda */}
+                            {/* uc nokta - sadece gerekli oldugunda */}
                             {pagination.page < totalPages - 3 && totalPages > 5 && (
                                 <span className="px-2 text-slate-500">...</span>
                             )}
 
-                            {/* Son sayfa butonu - 1'den fazla sayfa varsa görünür */}
+                            {/* Son sayfa butonu - 1'den fazla sayfa varsa gorunur */}
                             {totalPages > 1 && (
                                 <button
                                     onClick={() => {

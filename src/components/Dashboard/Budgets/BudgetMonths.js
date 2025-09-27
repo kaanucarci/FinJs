@@ -46,7 +46,8 @@ export default function BudgetMonths({
           {budgetYear}
         </span>
         <div className="p-4 flex flex-row justify-start items-center gap-3 overflow-auto">
-          {Object.values(budgetMonths).map((month, index) => (
+          {budgetMonths && Array.isArray(budgetMonths) && budgetMonths.length > 0 ? 
+            budgetMonths.map((month, index) => (
             <button
               key={month?.month - 1}
               disabled={index === activeIndex}
@@ -61,7 +62,9 @@ export default function BudgetMonths({
             >
               {months[month?.month - 1]}
             </button>
-          ))}
+          )) : (
+            <div className="text-slate-500 text-sm">Veri yükleniyor...</div>
+          )}
         </div>
       </div>
     </div>

@@ -1,0 +1,15 @@
+
+> fin-js@0.1.0 build
+> next build
+
+   ▲ Next.js 15.4.2
+   - Environments: .env.production
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/dashboard/page.js + 16 modules
+Unexpected end of JSON input
+
+
+> Build failed because of webpack errors

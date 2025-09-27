@@ -28,7 +28,10 @@ export function AuthProvider({ children }) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token");
       setToken(null);
-      window.location.href = "/login";
+      // Sadece login sayfasında değilsek yönlendir
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
+      }
     }
   };
 

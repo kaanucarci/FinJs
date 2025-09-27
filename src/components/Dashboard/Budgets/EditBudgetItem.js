@@ -20,7 +20,10 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         };
 
         const updated = await UseEditBudgetItem(token, data, budgetItem?.id);
-        if (onSuccess) onSuccess('update', updated);
+        if (updated && onSuccess) {
+            onSuccess('update', updated);
+        }
+        // Her durumda modal'ı kapat (başarılı veya hatalı)
         setIsOpen(false);
     };
 
@@ -38,9 +41,12 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
 
         if (!result.isConfirmed) return;
 
-        UseDeleteBudgetItem(token, endPoint, budgetItem.id);
+        const deleted = await UseDeleteBudgetItem(token, budgetItem.id);
 
-        if (onSuccess) onSuccess('delete', null);
+        if (deleted && onSuccess) {
+            onSuccess('delete', null);
+        }
+        // Her durumda modal'ı kapat (başarılı veya hatalı)
         setIsOpen(false);
     }
 

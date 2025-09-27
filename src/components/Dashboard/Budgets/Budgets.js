@@ -15,7 +15,7 @@ const Budgets = ({budgetYear}) => {
     const [activeIndex, setActiveIndex] = useState(() => new Date().getMonth());
     const [pagination, setPagination] = useState({
         page: 1,
-        pageSize: 10,
+        pageSize: 5,
         totalCount: 0
     });
     const { token } = useAuth();
@@ -35,7 +35,7 @@ const Budgets = ({budgetYear}) => {
 
             if (defaultBudget) {
                 fetchBudgetInfo(defaultBudget.id);
-                fetchBudgetItems(defaultBudget.id, { BudgetYear: budgetYear, page: 1, pageSize: 10 })
+                fetchBudgetItems(defaultBudget.id, { BudgetYear: budgetYear, page: 1, pageSize: 5 })
                 const defaultIndex = data.findIndex(m => m.month === currentMonth);
                 setActiveIndex(defaultIndex);
             }
@@ -60,7 +60,7 @@ const Budgets = ({budgetYear}) => {
         if (paginationData && typeof paginationData === 'object') {
             setPagination({
                 page: paginationData.page || 1,
-                pageSize: paginationData.pageSize || 10,
+                pageSize: paginationData.pageSize || 5,
                 totalCount: paginationData.totalCount || 0
             });
         }
@@ -68,33 +68,212 @@ const Budgets = ({budgetYear}) => {
 
     const handleMonthSelect = (monthObj, index) => {
         fetchBudgetInfo(monthObj.id || monthObj.budgetId);
-        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: budgetYear, page: 1, pageSize: 10 })
+        fetchBudgetItems(monthObj.id || monthObj.budgetId, { BudgetYear: budgetYear, page: 1, pageSize: 5 })
         setActiveIndex(index);
         setPagination(prev => ({ ...prev, page: 1 })); 
     };
 
     const handlePageChange = (newPage) => {
-        if (!selectedBudget || !selectedBudget.id) return;
+        console.log('handlePageChange called with:', newPage);
+        console.log('selectedBudget:', selectedBudget);
         
-        const budgetId = selectedBudget.id;
+        if (!selectedBudget || !selectedBudget.budgetId) {
+            console.log('No selectedBudget or budgetId, returning');
+            return;
+        }
+        
+        const budgetId = selectedBudget.budgetId;
+        console.log('Fetching budget items for page:', newPage);
+        
         fetchBudgetItems(budgetId, { 
             BudgetYear: budgetYear, 
             page: newPage, 
             pageSize: pagination.pageSize 
         });
+        
+        // Pagination state'ini güncelle
+        setPagination(prev => ({
+            ...prev,
+            page: newPage
+        }));
     };
 
     
 
+    // Token yoksa hiçbir şey render etme
+    if (!token) {
+        return null;
+    }
+
+    // Optimistic update fonksiyonları
+    const handleBudgetUpdate = (updatedBudget) => {
+        setSelectedBudget(updatedBudget);
+    };
+
+    const handleBudgetItemAdd = (newItem) => {
+        // BudgetItems state'ini güncelle
+        setBudgetItems(prev => {
+            if (Array.isArray(prev) && prev.length > 0 && prev[0] && prev[0].expenses) {
+                const updated = [...prev];
+                const currentExpenses = updated[0].expenses;
+                const pageSize = updated[0].pageSize || 5;
+                
+                // Eğer ilk sayfada yer varsa, yeni item'ı ekle
+                if (currentExpenses.length < pageSize) {
+                    updated[0] = {
+                        ...updated[0],
+                        expenses: [newItem, ...currentExpenses]
+                    };
+                } else {
+                    // İlk sayfa doluysa, yeni item'ı ekle ama sayfa boyutunu koru
+                    const newExpenses = [newItem, ...currentExpenses];
+                    updated[0] = {
+                        ...updated[0],
+                        expenses: newExpenses.slice(0, pageSize) // Sadece ilk 5 item'ı tut
+                    };
+                }
+                return updated;
+            } else {
+                // Eğer prev boş veya farklı formatta ise
+                return [{
+                    expenses: [newItem],
+                    page: 1,
+                    pageSize: 5,
+                    totalCount: 1
+                }];
+            }
+        });
+        
+        // Pagination'ı güncelle
+        setPagination(prev => ({
+            ...prev,
+            totalCount: prev.totalCount + 1
+        }));
+        
+        // Budget info'yu da güncelle
+        if (selectedBudget) {
+            const updatedBudget = { ...selectedBudget };
+            if (newItem.expenseType === 1) {
+                updatedBudget.expense = (updatedBudget.expense || 0) + parseFloat(newItem.amount);
+                updatedBudget.amount = (updatedBudget.amount || 0) - parseFloat(newItem.amount);
+            } else {
+                updatedBudget.saving = (updatedBudget.saving || 0) + parseFloat(newItem.amount);
+                updatedBudget.amount = (updatedBudget.amount || 0) + parseFloat(newItem.amount);
+            }
+            setSelectedBudget(updatedBudget);
+        }
+    };
+
+    const handleBudgetItemUpdate = (updatedItem) => {
+        // BudgetItems state'ini güncelle
+        setBudgetItems(prev => {
+            if (Array.isArray(prev) && prev.length > 0 && prev[0] && prev[0].expenses) {
+                const updated = [...prev];
+                updated[0] = {
+                    ...updated[0],
+                    expenses: updated[0].expenses.map(item => 
+                        item.id === updatedItem.id ? updatedItem : item
+                    )
+                };
+                return updated;
+            }
+            return prev;
+        });
+        
+        // Budget info'yu da güncelle
+        if (selectedBudget) {
+            const updatedBudget = { ...selectedBudget };
+            // Eski item'ı bul ve farkı hesapla
+            const oldItem = budgetItems[0]?.expenses?.find(item => item.id === updatedItem.id);
+            if (oldItem) {
+                const amountDiff = parseFloat(updatedItem.amount) - parseFloat(oldItem.amount);
+                const typeChanged = oldItem.expenseType !== updatedItem.expenseType;
+                
+                if (typeChanged) {
+                    // Tip değiştiyse eski tutarı geri al, yeni tutarı ekle
+                    if (oldItem.expenseType === 1) {
+                        updatedBudget.expense = (updatedBudget.expense || 0) - parseFloat(oldItem.amount);
+                        updatedBudget.amount = (updatedBudget.amount || 0) + parseFloat(oldItem.amount);
+                    } else {
+                        updatedBudget.saving = (updatedBudget.saving || 0) - parseFloat(oldItem.amount);
+                        updatedBudget.amount = (updatedBudget.amount || 0) - parseFloat(oldItem.amount);
+                    }
+                    
+                    if (updatedItem.expenseType === 1) {
+                        updatedBudget.expense = (updatedBudget.expense || 0) + parseFloat(updatedItem.amount);
+                        updatedBudget.amount = (updatedBudget.amount || 0) - parseFloat(updatedItem.amount);
+                    } else {
+                        updatedBudget.saving = (updatedBudget.saving || 0) + parseFloat(updatedItem.amount);
+                        updatedBudget.amount = (updatedBudget.amount || 0) + parseFloat(updatedItem.amount);
+                    }
+                } else {
+                    // Tip aynıysa sadece farkı ekle/çıkar
+                    if (updatedItem.expenseType === 1) {
+                        updatedBudget.expense = (updatedBudget.expense || 0) + amountDiff;
+                        updatedBudget.amount = (updatedBudget.amount || 0) - amountDiff;
+                    } else {
+                        updatedBudget.saving = (updatedBudget.saving || 0) + amountDiff;
+                        updatedBudget.amount = (updatedBudget.amount || 0) + amountDiff;
+                    }
+                }
+            }
+            setSelectedBudget(updatedBudget);
+        }
+    };
+
+    const handleBudgetItemDelete = (deletedItemId) => {
+        // BudgetItems state'ini güncelle
+        setBudgetItems(prev => {
+            if (Array.isArray(prev) && prev.length > 0 && prev[0] && prev[0].expenses) {
+                const updated = [...prev];
+                updated[0] = {
+                    ...updated[0],
+                    expenses: updated[0].expenses.filter(item => item.id !== deletedItemId)
+                };
+                return updated;
+            }
+            return prev;
+        });
+        
+        // Pagination'ı güncelle
+        setPagination(prev => ({
+            ...prev,
+            totalCount: prev.totalCount - 1
+        }));
+        
+        // Budget info'yu da güncelle
+        if (selectedBudget) {
+            const deletedItem = budgetItems[0]?.expenses?.find(item => item.id === deletedItemId);
+            if (deletedItem) {
+                const updatedBudget = { ...selectedBudget };
+                if (deletedItem.expenseType === 1) {
+                    updatedBudget.expense = (updatedBudget.expense || 0) - parseFloat(deletedItem.amount);
+                    updatedBudget.amount = (updatedBudget.amount || 0) + parseFloat(deletedItem.amount);
+                } else {
+                    updatedBudget.saving = (updatedBudget.saving || 0) - parseFloat(deletedItem.amount);
+                    updatedBudget.amount = (updatedBudget.amount || 0) - parseFloat(deletedItem.amount);
+                }
+                setSelectedBudget(updatedBudget);
+            }
+        }
+    };
+
     return (
         <>
             <BudgetMonths budgetMonths = {budgetMonths} onMonthSelect={handleMonthSelect} activeIndex={activeIndex} budgetYear={budgetYear}/>
-            <BudgetInfo  budgetInfo={selectedBudget} token={token} />
+            <BudgetInfo  
+                budgetInfo={selectedBudget} 
+                token={token} 
+                onBudgetUpdate={handleBudgetUpdate}
+                onBudgetItemAdd={handleBudgetItemAdd}
+            />
             <BudgetItems 
                 budgetItems={budgetItems} 
                 token={token} 
                 pagination={pagination}
                 onPageChange={handlePageChange}
+                onBudgetItemUpdate={handleBudgetItemUpdate}
+                onBudgetItemDelete={handleBudgetItemDelete}
             />
         </>
     )

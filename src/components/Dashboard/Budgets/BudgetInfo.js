@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import NewBudgetItem from "./NewBudgetItem";
 import EditBudget from "./EditBudget";
 
-export default function BudgetInfo({ budgetInfo, token }) {
+export default function BudgetInfo({ budgetInfo, token, onBudgetUpdate, onBudgetItemAdd }) {
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState(budgetInfo);
   const [isOpenEditBudget, setIsOpenEditBudget] = useState(false);
@@ -198,6 +198,7 @@ export default function BudgetInfo({ budgetInfo, token }) {
         setIsOpen={setIsOpen}
         budgetItem={info}
         token={token}
+        onSuccess={onBudgetItemAdd}
       />
       <EditBudget
         isOpen={isOpenEditBudget}
@@ -205,20 +206,10 @@ export default function BudgetInfo({ budgetInfo, token }) {
         budgetInfo={info}
         token={token}
         onSuccess={(updated) => {
-          const allowedKeys = [
-            "budgetId",
-            "year",
-            "month",
-            "totalAmount",
-            "amount",
-            "saving",
-            "expense",
-          ];
-          const keys = Object.keys(updated);
-          const isValid = keys.every((k) => allowedKeys.includes(k));
-
-          if (isValid)
-            setInfo(updated);
+          setInfo(updated);
+          if (onBudgetUpdate) {
+            onBudgetUpdate(updated);
+          }
         }}
       />
     </>

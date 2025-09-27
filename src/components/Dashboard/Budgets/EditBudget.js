@@ -18,9 +18,13 @@ export default function EditBudget({ isOpen, setIsOpen, budgetInfo , token, onSu
             totalAmount: budgetAmount.current.value,
         };
         const updated = await UseEditBudget(token, data, budgetInfo.budgetId);
-        if (onSuccess)
+        
+        // Sadece başarılı güncelleme durumunda state'i güncelle
+        if (updated && onSuccess) {
             onSuccess(updated);
-
+        }
+        
+        // Her durumda modal'ı kapat (başarılı veya hatalı)
         setIsOpen(false);
     };
 

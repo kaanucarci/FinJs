@@ -8,8 +8,7 @@ export const server = axios.create();
 server.defaults.baseURL = api;
 
 /**
- * Genel request wrapper
- * Hata durumunda backend'den donen message'i yakalar
+ * General request wrapper
  */
 export const request = async (url, options = {}) => {
     try {
@@ -17,6 +16,7 @@ export const request = async (url, options = {}) => {
 
         if (res.status === 401) {
             if (typeof window !== "undefined") {
+                localStorage.removeItem("token");
                 window.location.href = "/login";
             }
             return null;
@@ -48,7 +48,7 @@ export const request = async (url, options = {}) => {
     }
 };
 
-// --- API Fonksiyonlari ---
+// --- API Functions ---
 
 export const UserLogin = async (username, password) => {
     const res = await request(`/Auth/login`, {
@@ -183,4 +183,17 @@ export const UseDeleteBudgetItem = async (token, id) => {
 
     toast.success("Kayit basariyla silindi!");
     return true;
+};
+
+export const UseSearchBudgetItems = async (token, keyword) => {
+    const res = await request(`/expense/search?key=${keyword}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!res) return null;
+    return await res.json();
 };

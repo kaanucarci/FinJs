@@ -63,6 +63,11 @@ export default function MainLayout({ children }) {
     );
   }
 
+  // Token yoksa hiçbir şey render etme
+  if (!token) {
+    return null;
+  }
+
   return (
     <>
       <Header 

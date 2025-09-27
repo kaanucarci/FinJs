@@ -2,7 +2,7 @@ import {UseAddBudgetItem} from "@/api/api";
 import {useState} from "react";
 import {createPortal} from "react-dom";
 
-export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) {
+export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token, onSuccess }) {
     const [expenseType, setExpenseType] = useState(1);
 
     const handleSubmit = async (e) => {
@@ -15,7 +15,11 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) 
             expenseType : parseInt(formData.get("expense_type"))
         }
 
-        await UseAddBudgetItem(token, data);
+        const newItem = await UseAddBudgetItem(token, data);
+        if (newItem && onSuccess) {
+            onSuccess(newItem);
+        }
+        // Her durumda modal'ı kapat (başarılı veya hatalı)
         setIsOpen(false);
     }
 

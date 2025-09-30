@@ -5,7 +5,7 @@ import { useAuth } from "../../components/AuthProvider";
 import { useRouter } from "next/navigation";
 import { UserLogin } from "../../api/api";
 import Image from "next/image";
-import { User, Lock } from "lucide-react";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function LoginPage() {
 
     try {
       const response = await UserLogin(username, password);
-
+      
       if (!response.token) {
         setError(response.message || "Login failed");
         return;
@@ -69,7 +69,13 @@ export default function LoginPage() {
           )}
 
           <div className="relative w-full mb-4">
-            <User className="absolute left-3 top-3 text-gray-500" size={20} />
+            <Image
+              src="/people.svg"
+              width={20}
+              height={20}
+              alt="user icon"
+              className="absolute left-3 top-3 "
+            />
             <input
               className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
               placeholder="Username"
@@ -79,7 +85,13 @@ export default function LoginPage() {
           </div>
 
           <div className="relative w-full mb-6">
-            <Lock className="absolute left-3 top-3 text-gray-500" size={20} />
+            <Image
+                src="/lock.svg"
+                width={20}
+                height={20}
+                alt="user icon"
+                className="absolute left-3 top-3 "
+              />
             <input
               className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
               placeholder="Password"

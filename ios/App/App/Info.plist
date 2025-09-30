@@ -49,5 +49,7 @@
 	<string>UIStatusBarStyleDefault</string>
 	<key>UIStatusBarHidden</key>
 	<false/>
+	<key>NSAllowsArbitraryLoads</key>
+  	<true/>
 </dict>
 </plist>

@@ -19,7 +19,6 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token, on
         if (newItem && onSuccess) {
             onSuccess(newItem);
         }
-        // Her durumda modal'i kapat (basarili veya hatali)
         setIsOpen(false);
     }
 

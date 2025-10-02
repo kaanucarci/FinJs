@@ -1,11 +1,13 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useIonRouter } from "@ionic/react";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useIonRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -19,8 +21,8 @@ export function AuthProvider({ children }) {
 
   const login = (newToken) => {
     if (typeof window !== "undefined") {
-    setToken(newToken);
-    localStorage.setItem("token", newToken);
+      setToken(newToken);
+      localStorage.setItem("token", newToken);
     }
   };
 
@@ -28,9 +30,9 @@ export function AuthProvider({ children }) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token");
       setToken(null);
-      // Sadece login sayfasinda degilsek yonlendir
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
+
+      if (router.routeInfo.pathname !== "/login") {
+        router.push("/login");
       }
     }
   };

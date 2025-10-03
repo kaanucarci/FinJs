@@ -34,7 +34,7 @@ export const updateBudgetAmount = (budget, item, operation) => {
         updatedBudget.amount = (updatedBudget.amount || 0) - (amount * multiplier);
     } else {
         updatedBudget.saving = (updatedBudget.saving || 0) + (amount * multiplier);
-        updatedBudget.amount = (updatedBudget.amount || 0) + (amount * multiplier);
+        updatedBudget.amount = (updatedBudget.amount || 0) - (amount * multiplier);
     }
     
     return updatedBudget;

@@ -4,7 +4,7 @@ import {UseEditBudgetItem, UseDeleteBudgetItem} from "@/api/api";
 import {useState} from "react";
 import Swal from "sweetalert2";
 
-export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, onSuccess }) {
+export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token }) {
 
     const amount = useRef();
     const description = useRef();
@@ -20,9 +20,6 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         };
 
         const updated = await UseEditBudgetItem(token, data, budgetItem?.id);
-        if (updated && onSuccess) {
-            onSuccess('update', updated);
-        }
         setIsOpen(false);
     };
 
@@ -41,10 +38,6 @@ export default function EditBudgetItem({ isOpen, setIsOpen, budgetItem , token, 
         if (!result.isConfirmed) return;
 
         const deleted = await UseDeleteBudgetItem(token, budgetItem.id);
-
-        if (deleted && onSuccess) {
-            onSuccess('delete', null);
-        }
         setIsOpen(false);
     }
 

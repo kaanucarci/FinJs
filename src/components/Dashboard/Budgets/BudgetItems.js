@@ -2,7 +2,7 @@ import BudgetItem from "./BudgetItem";
 import EmptyState from "./EmptyState";
 
 
-export default function BudgetItems({budgetItems , token, pagination, onPageChange, onBudgetItemUpdate, onBudgetItemDelete}) {
+export default function BudgetItems({budgetItems , token, pagination, onPageChange}) {
 
     const data = Array.isArray(budgetItems) ? budgetItems[0] : budgetItems;
     const expenses = data?.expenses || [];
@@ -19,8 +19,6 @@ export default function BudgetItems({budgetItems , token, pagination, onPageChan
                     <BudgetItem 
                         budgetItem={expenses} 
                         token={token} 
-                        onBudgetItemUpdate={onBudgetItemUpdate}
-                        onBudgetItemDelete={onBudgetItemDelete}
                     />
                 )}
                 

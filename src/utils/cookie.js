@@ -1,5 +1,3 @@
-// Preferences yonetimi fonksiyonlari - Capacitor Preferences API kullanarak
-
 import { Preferences } from '@capacitor/preferences';
 
 export const getCookie = async (name) => {

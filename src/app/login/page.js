@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { UserLogin } from "../../api/api";
 import Image from "next/image";
 
-
 export default function LoginPage() {
   const router = useRouter();
   const { login, token, loading } = useAuth();
@@ -14,6 +13,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!loading && token) {
@@ -23,12 +23,15 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError("");
 
     try {
       const response = await UserLogin(username, password);
-      
+
       if (!response.token) {
         setError(response.message || "Login failed");
+        setIsSubmitting(false);
         return;
       }
 
@@ -37,6 +40,7 @@ export default function LoginPage() {
     } catch (err) {
       console.error(err);
       setError("Login failed. Server error.");
+      setIsSubmitting(false);
     }
   };
 
@@ -86,12 +90,12 @@ export default function LoginPage() {
 
           <div className="relative w-full mb-6">
             <Image
-                src="/lock.svg"
-                width={20}
-                height={20}
-                alt="user icon"
-                className="absolute left-3 top-3 "
-              />
+              src="/lock.svg"
+              width={20}
+              height={20}
+              alt="user icon"
+              className="absolute left-3 top-3 "
+            />
             <input
               className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
               placeholder="Password"
@@ -103,9 +107,36 @@ export default function LoginPage() {
 
           <button
             type="submit"
+            disabled={!username || !password || isSubmitting}
             className="w-full bg-[#004caa]/80 hover:bg-[#004caa] text-white font-semibold py-2 rounded-lg shadow-lg transform transition duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#004caa]"
           >
-            Login
+            {isSubmitting ? (
+              <div className="flex items-center justify-center gap-2">
+                <svg
+                  className="w-5 h-5 animate-spin text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                Loading...
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>

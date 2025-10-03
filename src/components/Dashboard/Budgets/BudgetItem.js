@@ -6,8 +6,6 @@ import EmptyState from "@/components/Dashboard/Budgets/EmptyState";
 export default function BudgetItem({
   budgetItem,
   token,
-  onBudgetItemUpdate,
-  onBudgetItemDelete,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -116,17 +114,6 @@ export default function BudgetItem({
         setIsOpen={setIsOpen}
         budgetItem={selectedItem}
         token={token}
-        onSuccess={(action, updated) => {
-          if (action === "delete" && selectedItem) {
-            setItem((prev) => prev.filter((i) => i.id !== selectedItem.id));
-            onBudgetItemDelete?.(selectedItem.id);
-          } else if (action === "update" && updated) {
-            setItem((prev) =>
-              prev.map((i) => (i.id === updated.id ? updated : i))
-            );
-            onBudgetItemUpdate?.(updated);
-          }
-        }}
       />
     </>
   );

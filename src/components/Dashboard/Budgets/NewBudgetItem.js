@@ -2,7 +2,7 @@ import {UseAddBudgetItem} from "@/api/api";
 import {useState} from "react";
 import {createPortal} from "react-dom";
 
-export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token, onSuccess }) {
+export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token }) {
     const [expenseType, setExpenseType] = useState(1);
 
     const handleSubmit = async (e) => {
@@ -16,9 +16,6 @@ export default function NewBudgetItem({ isOpen, setIsOpen, budgetItem, token, on
         }
 
         const newItem = await UseAddBudgetItem(token, data);
-        if (newItem && onSuccess) {
-            onSuccess(newItem);
-        }
         setIsOpen(false);
     }
 

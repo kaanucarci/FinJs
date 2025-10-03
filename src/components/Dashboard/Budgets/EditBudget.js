@@ -3,8 +3,7 @@ import {createPortal} from "react-dom";
 import {UseEditBudget} from "@/api/api";
 import {toast} from "react-toastify";
 
-export default function EditBudget({ isOpen, setIsOpen, budgetInfo , token, onSuccess}) {
-
+export default function EditBudget({ isOpen, setIsOpen, budgetInfo , token}) {
 
     const budgetYear = useRef();
     const budgetMonth = useRef();
@@ -18,13 +17,6 @@ export default function EditBudget({ isOpen, setIsOpen, budgetInfo , token, onSu
             totalAmount: budgetAmount.current.value,
         };
         const updated = await UseEditBudget(token, data, budgetInfo.budgetId);
-        
-        // Sadece basarili guncelleme durumunda state'i guncelle
-        if (updated && onSuccess) {
-            onSuccess(updated);
-        }
-        
-        // Her durumda modal'i kapat (basarili veya hatali)
         setIsOpen(false);
     };
 

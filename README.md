@@ -25,7 +25,7 @@ Developed with React (Next.js) and Ionic, it communicates with a backend powered
 | Frontend       | [React](https://reactjs.org/) + [Ionic React](https://ionicframework.com/docs/react) |
 | Backend        | [.NET 8 Web API](https://dotnet.microsoft.com/) |
 | Database       | MSSQL                                |
-| Real-time Comm | SignalR (planned)                    |
+| Real-time Comm | SignalR                              |
 | Auth           | JWT (Json Web Token)                 |
 | UI Library     | Ionic Components + TailwindCSS (optional) |
 

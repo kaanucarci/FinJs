@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { UserRegister } from "../../api/api";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -157,9 +158,9 @@ export default function LoginPage() {
             <div className="text-center mt-4">
               <span>
                 Zaten kayitli misiniz? {" "}
-                <a href="/login" className="text-[#004caa]">
+                <Link href="/login" className="text-[#004caa]">
                   Giris Yap
-                </a>
+                </Link>
               </span>
             </div>
           </form>

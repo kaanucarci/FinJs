@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { UserLogin } from "../../api/api";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -142,10 +143,10 @@ export default function LoginPage() {
             </button>
             <div className="text-center mt-4">
               <span>
-                Henuz hesabin yok mu?{" "}
-                <a href="/register" className="text-[#004caa]">
+               Henuz hesabin yok mu?{" "}
+                <Link href="/register" className="text-[#004caa]">
                   Kayit Ol
-                </a>
+                </Link>
               </span>
             </div>
           </form>

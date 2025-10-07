@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../components/AuthProvider";
 import { useRouter } from "next/navigation";
-import { UserLogin } from "../../api/api";
+import { UserRegister } from "../../api/api";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 
@@ -13,6 +13,8 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,13 +24,19 @@ export default function LoginPage() {
     }
   }, [token, loading, router]);
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
 
     try {
-      const response = await UserLogin(username, password);
+      const data = {
+        name: name,
+        surname: surname,
+        username: username,
+        password: password,
+      };
+      const response = await UserRegister(data);
 
       if (!response.token) {
         setError(response.message || "Login failed");
@@ -39,8 +47,8 @@ export default function LoginPage() {
       login(response.token);
       router.push("/");
     } catch (err) {
-      console.error(err);
-      setError("Login failed. Server error.");
+      console.error("test:", err);
+      setError("Register failed. Server error.");
       setIsSubmitting(false);
     }
   };
@@ -57,7 +65,10 @@ export default function LoginPage() {
     <>
       <div className="flex items-center justify-center h-screen bg-gray-200 bg-[url('/bg_pattern.png')] bg-cover bg-center">
         <div className="w-full max-w-md p-8 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl border border-white/40">
-          <form onSubmit={handleLogin} className="flex flex-col items-center">
+          <form
+            onSubmit={handleRegister}
+            className="flex flex-col items-center"
+          >
             {/* Logo */}
             <Image
               className="mb-8 drop-shadow-lg"
@@ -75,15 +86,25 @@ export default function LoginPage() {
             )}
 
             <div className="relative w-full mb-4">
-              <Image
-                src="/people.svg"
-                width={20}
-                height={20}
-                alt="user icon"
-                className="absolute left-3 top-3 "
-              />
               <input
-                className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="relative w-full mb-4">
+              <input
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
+                placeholder="Surname"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+              />
+            </div>
+
+            <div className="relative w-full mb-4">
+              <input
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value.replace(/\s/g, ""))}
@@ -91,15 +112,8 @@ export default function LoginPage() {
             </div>
 
             <div className="relative w-full mb-6">
-              <Image
-                src="/lock.svg"
-                width={20}
-                height={20}
-                alt="user icon"
-                className="absolute left-3 top-3 "
-              />
               <input
-                className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
                 placeholder="Password"
                 type="password"
                 value={password}
@@ -137,14 +151,14 @@ export default function LoginPage() {
                   Loading...
                 </div>
               ) : (
-                "Login"
+                "Register"
               )}
             </button>
             <div className="text-center mt-4">
               <span>
-                Henuz hesabin yok mu?{" "}
-                <a href="/register" className="text-[#004caa]">
-                  Kayit Ol
+                Zaten kayitli misiniz? {" "}
+                <a href="/login" className="text-[#004caa]">
+                  Giris Yap
                 </a>
               </span>
             </div>

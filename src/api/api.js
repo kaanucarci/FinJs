@@ -63,6 +63,19 @@ export const UserLogin = async (username, password) => {
     return await res.json();
 };
 
+export const UserRegister = async (data) => {
+    const res = await request(`/Auth/register`, {
+        method: "POST",
+        headers: {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    if (!res) return null;
+    return await res.json();
+};
+
 export const UseGetBudgetYears = async (token) => {
     const res = await request(`/Budget/year`, {
         method: "GET",

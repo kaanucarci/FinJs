@@ -1,6 +1,8 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useIonRouter } from "@ionic/react";
+import { LOGIN_URL } from "@/utils/urlConstants";
+import { setAuth } from "@/utils/authHelper";
 
 const AuthContext = createContext(null);
 
@@ -31,11 +33,16 @@ export function AuthProvider({ children }) {
       localStorage.removeItem("token");
       setToken(null);
 
-      if (router.routeInfo.pathname !== "/login") {
-        router.push("/login");
+      if (router.routeInfo.pathname !== LOGIN_URL) {
+        router.push(LOGIN_URL);
       }
     }
   };
+
+  useEffect(() => {
+    setAuth({ logout, login, token });
+  }, [token]);
+
 
   return (
     <AuthContext.Provider value={{ token, login, logout, loading }}>

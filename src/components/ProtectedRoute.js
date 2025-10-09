@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
+import { LOGIN_URL } from "@/utils/urlConstants";
 
 export default function ProtectedRoute({ children }) {
   const { token, loading } = useAuth();
@@ -11,7 +12,7 @@ export default function ProtectedRoute({ children }) {
   useEffect(() => {
     if (!loading && !token && !hasRedirected) {
       setHasRedirected(true);
-      router.push("/login");
+      router.push(LOGIN_URL);
     }
   }, [token, loading, hasRedirected, router]);
 

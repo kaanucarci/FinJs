@@ -7,12 +7,13 @@ import { UserLogin } from "../../api/api";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 import Link from "next/link";
+import { REGISTER_URL, FORGET_PASSWORD_URL } from "@/utils/urlConstants";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, token, loading } = useAuth();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,10 +30,10 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await UserLogin(username, password);
+      const response = await UserLogin(email, password);
 
-      if (!response.token) {
-        setError(response.message || "Login failed");
+      if (!response?.token) {
+        setError(response?.message || "Login failed");
         setIsSubmitting(false);
         return;
       }
@@ -41,7 +42,7 @@ export default function LoginPage() {
       router.push("/");
     } catch (err) {
       console.error(err);
-      setError("Login failed. Server error.");
+      setError("Giris basarisiz.");
       setIsSubmitting(false);
     }
   };
@@ -56,8 +57,8 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="flex items-center justify-center h-screen bg-gray-200 bg-[url('/bg_pattern.png')] bg-cover bg-center">
-        <div className="w-full max-w-md p-8 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl border border-white/40">
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br  bg-gray-200 bg-cover bg-center">
+        <div className="w-full max-w-md p-8 bg-white backdrop-blur-lg rounded-2xl shadow-xl border border-white/40">
           <form onSubmit={handleLogin} className="flex flex-col items-center">
             {/* Logo */}
             <Image
@@ -67,27 +68,19 @@ export default function LoginPage() {
               width={160}
               height={50}
             />
-
-            {/* Error Message */}
-            {error && (
-              <div className="w-full text-center text-red-700 bg-red-200/50 px-4 py-2 rounded-lg mb-5">
-                {error}
-              </div>
-            )}
-
             <div className="relative w-full mb-4">
               <Image
                 src="/people.svg"
                 width={20}
                 height={20}
                 alt="user icon"
-                className="absolute left-3 top-3 "
+                className="absolute left-3 top-3 z-10"
               />
               <input
                 className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value.replace(/\s/g, ""))}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value.replace(/\s/g, ""))}
               />
             </div>
 
@@ -97,11 +90,11 @@ export default function LoginPage() {
                 width={20}
                 height={20}
                 alt="user icon"
-                className="absolute left-3 top-3 "
+                className="absolute left-3 top-3 z-10"
               />
               <input
                 className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#004caa] transition bg-white/50 backdrop-blur-sm placeholder-gray-600"
-                placeholder="Password"
+                placeholder="Sifre"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -110,7 +103,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              disabled={!username || !password || isSubmitting}
+              disabled={!email || !password || isSubmitting}
               className="w-full bg-[#004caa]/80 hover:bg-[#004caa] text-white font-semibold py-2 rounded-lg shadow-lg transform transition duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#004caa]"
             >
               {isSubmitting ? (
@@ -135,20 +128,26 @@ export default function LoginPage() {
                       d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                     ></path>
                   </svg>
-                  Loading...
+                  Yukleniyor...
                 </div>
               ) : (
-                "Login"
+                "Giris Yap"
               )}
             </button>
             <div className="text-center mt-4">
               <span>
                Henuz hesabin yok mu?{" "}
-                <Link href="/register" className="text-[#004caa]">
+                <Link href={REGISTER_URL} className="text-[#004caa]">
                   Kayit Ol
                 </Link>
               </span>
             </div>
+            {/* Error Message */}
+            {error && (
+              <div className="text-center mt-2">
+                Sifreni mi unuttun? <Link href={FORGET_PASSWORD_URL} className="text-[#004caa]">Buradan Sifirla</Link>
+              </div>
+            )}
           </form>
         </div>
       </div>

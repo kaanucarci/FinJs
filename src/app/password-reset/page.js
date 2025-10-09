@@ -44,7 +44,7 @@ export default function ForgetPasswordPage() {
   useEffect(() => {
     let timer;
     if (showModal && countdown > 0) {
-      timer = setTimeout(() => setCountdown((c) => c - 1), 1000);f
+      timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
     }
     return () => clearTimeout(timer);
   }, [showModal, countdown]);

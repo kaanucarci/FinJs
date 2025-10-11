@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { UserRegister } from "@/api/api";
 import Image from "next/image";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { LOGIN_URL } from "@/utils/urlConstants";
+import AuthLayout from "@/layouts/AuthLayout";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -80,147 +81,178 @@ export default function RegisterPage() {
     );
 
   return (
-    <>
-      <div className="flex items-center justify-center h-screen bg-gray-200">
-        <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl">
-          {/* Logo & Baslik */}
-          <div className="text-center mb-6">
+    <AuthLayout showLogo={false} maxWidth="max-w-lg">
+      <div className="w-full">
+        <div className="text-center mb-8">
+          <div className="inline-block p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-sm mb-4">
             <Image
               src="/finjs_logo.png"
               alt="FinJS Logo"
-              width={160}
-              height={50}
-              className="mx-auto mb-3"
+              width={140}
+              height={45}
             />
-            <h2 className="text-2xl font-semibold text-[#004caa] mt-6">
-              Bireysel Hesap
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Finansal hedeflerinizi yonetmeye baslayin
-            </p>
           </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Hesap Olustur
+          </h2>
+          <p className="text-sm text-gray-500">
+            Finansal hedeflerinizi yonetmeye baslayin
+          </p>
+        </div>
 
-          {/* Form */}
-          <form onSubmit={handleRegister} className="space-y-4">
-            {/* Isim */}
+        <form onSubmit={handleRegister} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <input
                 type="text"
                 name="name"
-                placeholder="Isim"
+                placeholder="Adiniz"
                 value={form.name}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
+                className={`w-full px-4 py-3.5 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                   errors.name
-                    ? "border-red-400 focus:ring-red-400"
-                    : "border-gray-300 focus:ring-[#004caa]"
-                }`}
+                    ? "border-red-300 focus:ring-red-500/20 focus:border-red-500 bg-red-50/50"
+                    : "border-gray-200 focus:ring-[#004caa]/20 focus:border-[#004caa] bg-gray-50 hover:bg-white"
+                } placeholder-gray-400 text-gray-800`}
               />
               {errors.name && (
-                <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+                <p className="text-red-500 text-xs mt-1.5 ml-1">{errors.name}</p>
               )}
             </div>
 
-            {/* Soyisim */}
             <div>
               <input
                 type="text"
                 name="surname"
-                placeholder="Soyisim"
+                placeholder="Soyadiniz"
                 value={form.surname}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
+                className={`w-full px-4 py-3.5 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                   errors.surname
-                    ? "border-red-400 focus:ring-red-400"
-                    : "border-gray-300 focus:ring-[#004caa]"
-                }`}
+                    ? "border-red-300 focus:ring-red-500/20 focus:border-red-500 bg-red-50/50"
+                    : "border-gray-200 focus:ring-[#004caa]/20 focus:border-[#004caa] bg-gray-50 hover:bg-white"
+                } placeholder-gray-400 text-gray-800`}
               />
               {errors.surname && (
-                <p className="text-red-600 text-sm mt-1">{errors.surname}</p>
+                <p className="text-red-500 text-xs mt-1.5 ml-1">{errors.surname}</p>
               )}
             </div>
+          </div>
 
-            {/* E-posta */}
-            <div>
+          <div>
+            <input
+              type="email"
+              name="email"
+              placeholder="E-posta adresiniz"
+              value={form.email}
+              onChange={handleChange}
+              className={`w-full px-4 py-3.5 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
+                errors.email
+                  ? "border-red-300 focus:ring-red-500/20 focus:border-red-500 bg-red-50/50"
+                  : "border-gray-200 focus:ring-[#004caa]/20 focus:border-[#004caa] bg-gray-50 hover:bg-white"
+              } placeholder-gray-400 text-gray-800`}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1.5 ml-1">{errors.email}</p>
+            )}
+          </div>
+
+          <div>
+            <div className="relative">
               <input
-                type="email"
-                name="email"
-                placeholder="E-posta"
-                value={form.email}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Sifreniz"
+                value={form.password}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errors.email
-                    ? "border-red-400 focus:ring-red-400"
-                    : "border-gray-300 focus:ring-[#004caa]"
-                }`}
+                className={`w-full px-4 py-3.5 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
+                  errors.password
+                    ? "border-red-300 focus:ring-red-500/20 focus:border-red-500 bg-red-50/50"
+                    : "border-gray-200 focus:ring-[#004caa]/20 focus:border-[#004caa] bg-gray-50 hover:bg-white"
+                } placeholder-gray-400 text-gray-800 pr-12`}
               />
-              {errors.email && (
-                <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-              )}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#004caa] transition-colors"
+              >
+                <Image src={showPassword ? "/eye.svg" : "/view.svg"} width={22} height={22} alt="Show password"/>
+              </button>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1.5 ml-1">{errors.password}</p>
+            )}
 
-            {/* Sifre */}
-            <div>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="Sifre"
-                  value={form.password}
-                  onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                    errors.password
-                      ? "border-red-400 focus:ring-red-400"
-                      : "border-gray-300 focus:ring-[#004caa]"
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2 text-gray-500 hover:text-[#004caa]"
+            <div className="mt-3 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100">
+              <p className="font-semibold text-[#004caa] text-sm mb-2 flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Sifre kurallari
+              </p>
+              <ul className="space-y-1.5 text-xs text-gray-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#004caa] mt-0.5">•</span>
+                  <span>En az 6 karakter olmalidir</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#004caa] mt-0.5">•</span>
+                  <span>Ozel karakter kullanabilirsiniz (!, @, #, vb.)</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-[#004caa] to-[#0066dd] hover:from-[#003d8a] hover:to-[#0052b3] text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg"
+          >
+            {isSubmitting ? (
+              <div className="flex items-center justify-center gap-2">
+                <svg
+                  className="w-5 h-5 animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
                 >
-                  <Image src={showPassword ? "/eye.svg" : "/view.svg"} width={25} height={25} alt="Show password"/>
-                </button>
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                Kayit Olusturuluyor...
               </div>
-              {errors.password && (
-                <p className="text-red-600 text-sm mt-1">{errors.password}</p>
-              )}
+            ) : (
+              "Hesap Olustur"
+            )}
+          </button>
+        </form>
 
-              {/* Sifre Kurallari */}
-              <div className="mt-3 bg-gray-50 p-3 rounded-lg border border-gray-200 text-xs text-gray-600">
-                <p className="font-semibold text-[#004caa] mb-1">Sifre kurallari:</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>En az 6 karakter olmalidir</li>
-                  <li>Ozel karakter kullanabilirsiniz (!, @, #, vb.)</li>
-                </ul>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-[#004caa] text-white py-2 rounded-lg font-semibold hover:bg-[#003b86] transition duration-300 disabled:opacity-60"
-            >
-              {isSubmitting ? "Kayit Olusturuluyor..." : "Kayit Ol"}
-            </button>
-          </form>
-
-          {/* Alt Link */}
-          <div className="text-center mt-5 text-sm text-gray-700">
-            Zaten hesabiniz var mi?{" "}
-            <Link href={LOGIN_URL} className="text-[#004caa] font-medium">
-              Giris Yap
-            </Link>
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200"></div>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="px-4 bg-white text-gray-500">Zaten hesabiniz var mi?</span>
           </div>
         </div>
-      </div>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        theme="colored"
-      />
-    </>
+        <div className="text-center">
+          <Link href={LOGIN_URL} className="inline-flex items-center justify-center w-full py-3 px-4 text-[#004caa] font-semibold hover:text-[#0066dd] transition-colors border border-gray-200 rounded-xl hover:bg-gray-50">
+            Giris Yap
+          </Link>
+        </div>
+      </div>
+    </AuthLayout>
   );
 }

@@ -51,14 +51,14 @@ export const request = async (url, options = {}) => {
 
 // --- API Functions ---
 
-export const UserLogin = async (username, password) => {
+export const UserLogin = async (email, password) => {
   const res = await request(`/Auth/login`, {
     method: "POST",
     headers: {
       accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
   });
   if (!res) return null;
   return await res.json();

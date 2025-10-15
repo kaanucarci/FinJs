@@ -211,3 +211,16 @@ export const UseSearchBudgetItems = async (token, keyword) => {
   if (!res) return null;
   return await res.json();
 };
+
+export const UseSendPasswordResetCode = async(token, email) => {
+  const res = await request(`/Auth/send-reset-password-code`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ email: email }),
+  });
+  if (!res) return null;
+  return true;
+};

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { LOGIN_URL } from "@/utils/urlConstants";
 import AuthLayout from "@/layouts/AuthLayout";
+import { UseSendPasswordResetCode } from "@/api/api";
 
 export default function ForgetPasswordPage() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function ForgetPasswordPage() {
 
     setIsSubmitting(true);
     try {
-      await new Promise((res) => setTimeout(res, 1000));
+      await UseSendPasswordResetCode(email);
       toast.success("Dogrlama kodu e-posta adresinize gonderildi.");
       setShowModal(true);
       setStep("verify");

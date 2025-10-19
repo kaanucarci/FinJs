@@ -150,14 +150,11 @@ export default function LoginPage() {
               Kayit Ol
             </Link>
           </p>
-
-          {error && (
-            <p className="text-sm text-gray-600">
-              <Link href={FORGET_PASSWORD_URL} className="text-[#004caa] font-semibold hover:text-[#0066dd] transition-colors">
-                Sifremi Unuttum
-              </Link>
-            </p>
-          )}
+          <p className="text-sm text-gray-600">
+            <Link href={FORGET_PASSWORD_URL} className="text-[#004caa] font-semibold hover:text-[#0066dd] transition-colors">
+              Sifremi Unuttum
+            </Link>
+          </p>
         </div>
       </form>
     </AuthLayout>

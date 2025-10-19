@@ -219,8 +219,34 @@ export const UseSendPasswordResetCode = async(token, email) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ email: email }),
+    body: JSON.stringify(email),
   });
   if (!res) return null;
   return true;
 };
+
+export const UseVerifyPasswordResetCode = async(token, email, code) => {
+  const res = await request(`/Auth/verify-reset-password-code`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ email, code }),
+  });
+  if (!res) return null;
+  return true;
+};
+
+export const UseResetPassword = async(token, data) => {
+  const res = await request(`/Auth/reset-password`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res) return null;
+  return true;
+}

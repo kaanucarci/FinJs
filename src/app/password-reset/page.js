@@ -7,10 +7,16 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { LOGIN_URL } from "@/utils/urlConstants";
 import AuthLayout from "@/layouts/AuthLayout";
-import { UseSendPasswordResetCode } from "@/api/api";
+import {
+  UseResetPassword,
+  UseSendPasswordResetCode,
+  UseVerifyPasswordResetCode,
+} from "@/api/api";
+import { useAuth } from "@/components/AuthProvider";
 
 export default function ForgetPasswordPage() {
   const router = useRouter();
+  const { token, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState("email");
@@ -29,8 +35,10 @@ export default function ForgetPasswordPage() {
 
     setIsSubmitting(true);
     try {
-      await UseSendPasswordResetCode(email);
-      toast.success("Dogrlama kodu e-posta adresinize gonderildi.");
+      const res = await UseSendPasswordResetCode(token, email);
+      if (res) {
+        toast.success("Dogrlama kodu e-posta adresinize gonderildi.");
+      }
       setShowModal(true);
       setStep("verify");
       setCountdown(120);
@@ -42,6 +50,12 @@ export default function ForgetPasswordPage() {
   };
 
   useEffect(() => {
+    if (!loading && token) {
+      router.push("/");
+    }
+  }, [token, loading, router]);
+
+  useEffect(() => {
     let timer;
     if (showModal && countdown > 0) {
       timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
@@ -49,9 +63,9 @@ export default function ForgetPasswordPage() {
     return () => clearTimeout(timer);
   }, [showModal, countdown]);
 
-  const handleVerifyCode = (e) => {
+  const handleVerifyCode = async (e) => {
     e.preventDefault();
-    if (code === "123456") {
+    if (await UseVerifyPasswordResetCode(token, email, code)) {
       toast.success("Kod dogrulandi!");
       setShowModal(false);
       setStep("reset");
@@ -72,9 +86,17 @@ export default function ForgetPasswordPage() {
       return;
     }
 
-    await new Promise((res) => setTimeout(res, 1000));
-    toast.success("Sifreniz basariyla guncellendi!");
-    setTimeout(() => router.push(LOGIN_URL), 1500);
+    const data = {
+      email,
+      password: newPassword,
+      code,
+    };
+    if (await UseResetPassword(token, data)) {
+      if (step === "reset") {
+        toast.success("Sifreniz basariyla guncellendi!");
+        setTimeout(() => router.push(LOGIN_URL), 1500);
+      }
+    }
   };
 
   return (
@@ -82,10 +104,12 @@ export default function ForgetPasswordPage() {
       <AuthLayout>
         <div className="w-full">
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Sifre Sifirlama</h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+              Sifre Sifirlama
+            </h1>
             <p className="text-sm text-gray-500">
-              {step === "email" 
-                ? "E-posta adresinize dogrulama kodu gonderilecek" 
+              {step === "email"
+                ? "E-posta adresinize dogrulama kodu gonderilecek"
                 : "Yeni sifrenizi belirleyin"}
             </p>
           </div>
@@ -188,9 +212,22 @@ export default function ForgetPasswordPage() {
             </div>
 
             <div className="text-center">
-              <Link href={LOGIN_URL} className="text-sm text-gray-600 hover:text-[#004caa] font-medium transition-colors inline-flex items-center gap-2 mt-5">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              <Link
+                href={LOGIN_URL}
+                className="text-sm text-gray-600 hover:text-[#004caa] font-medium transition-colors inline-flex items-center gap-2 mt-5"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                  />
                 </svg>
                 Giris sayfasina don
               </Link>
@@ -203,12 +240,22 @@ export default function ForgetPasswordPage() {
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 p-4">
           <div className="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="h-2 bg-gradient-to-r from-[#004caa] via-[#0066dd] to-[#004caa]"></div>
-            
+
             <div className="p-8">
               <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl mb-4">
-                  <svg className="w-8 h-8 text-[#004caa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    className="w-8 h-8 text-[#004caa]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2">
@@ -224,7 +271,7 @@ export default function ForgetPasswordPage() {
                   type="text"
                   maxLength={6}
                   value={code}
-                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                  onChange={(e) => setCode(e.target.value)}
                   className="w-full text-center text-2xl tracking-[0.5em] font-bold border-2 border-gray-200 rounded-xl py-4 focus:ring-2 focus:ring-[#004caa]/20 focus:border-[#004caa] outline-none bg-gray-50 hover:bg-white transition-all text-gray-800"
                   placeholder="○ ○ ○ ○ ○ ○"
                 />
@@ -233,7 +280,8 @@ export default function ForgetPasswordPage() {
                   <p className="text-sm text-gray-600">
                     Kodun suresi:{" "}
                     <span className="font-bold text-[#004caa] text-base">
-                      {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, '0')}
+                      {Math.floor(countdown / 60)}:
+                      {String(countdown % 60).padStart(2, "0")}
                     </span>
                   </p>
                 </div>
